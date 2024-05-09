@@ -2,7 +2,7 @@ class Solution {
 public:
     long long maximumHappinessSum(vector<int>& happiness, int k) {
         
-        function comp = [&](int &a, int &b){
+        function comp = [](int &a, int &b){
             return a > b;
         };
 
