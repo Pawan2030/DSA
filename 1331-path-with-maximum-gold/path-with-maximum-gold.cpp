@@ -1,46 +1,52 @@
 class Solution {
 public:
-    int getMaximumGold(vector<vector<int>>& grid) {
-        int rows = grid.size();
-        int cols = grid[0].size();
-        int maxGold = 0;
+    int row;
+    int col;
 
-        // Search for the path with the maximum gold starting from each cell
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                maxGold =
-                    max(maxGold, dfsBacktrack(grid, rows, cols, row, col));
-            }
-        }
-        return maxGold;
-    }
+    vector<vector<int>> Directions{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
-private:
-    const vector<int> DIRECTIONS = {0, 1, 0, -1, 0};
+    int DFS(vector<vector<int>>& grid, int i, int j) {
 
-    int dfsBacktrack(vector<vector<int>>& grid, int rows, int cols, int row,
-                     int col) {
-        // Base case: this cell is not in the matrix or this cell has no gold
-        if (row < 0 || col < 0 || row == rows || col == cols ||
-            grid[row][col] == 0) {
+        // dfs return codition
+        if (i < 0 || i >= row || j < 0 || j >= col || grid[i][j] == 0) {
             return 0;
         }
-        int maxGold = 0;
 
-        // Mark the cell as visited and save the value
-        int originalVal = grid[row][col];
-        grid[row][col] = 0;
+        int value = grid[i][j];
+        grid[i][j] = 0;
 
-        // Backtrack in each of the four directions
-        for (int direction = 0; direction < 4; direction++) {
-            maxGold =
-                max(maxGold,
-                    dfsBacktrack(grid, rows, cols, DIRECTIONS[direction] + row,
-                                 DIRECTIONS[direction + 1] + col));
+        int sum = value;
+
+        for (auto& dirc : Directions) {
+
+            int new_i = i + dirc[0];
+            int new_j = j + dirc[1];
+
+            //cout << "SUM->" << sum << endl;
+            sum = max(sum, value + DFS(grid, new_i, new_j));
         }
 
-        // Set the cell back to its original value
-        grid[row][col] = originalVal;
-        return maxGold + originalVal;
+        // undo
+        grid[i][j] = value;
+        //cout << "FinalSUM->" << sum << endl;
+
+        return sum;
+    }
+
+    int getMaximumGold(vector<vector<int>>& grid) {
+
+        row = grid.size();
+        col = grid[0].size();
+        int result = 0;
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+
+                if (grid[i][j] != 0) {
+                    result = max(result, DFS(grid, i, j));
+                }
+            }
+        }
+        return result;
     }
 };
