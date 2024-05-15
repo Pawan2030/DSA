@@ -15,7 +15,7 @@ public:
         int value = grid[i][j];
         grid[i][j] = 0;
 
-        int sum = value;
+        int sum = 0;
 
         for (auto& dirc : Directions) {
 
