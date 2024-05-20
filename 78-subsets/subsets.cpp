@@ -3,7 +3,7 @@ public:
     
     int n;
 
-    void solve(int i, vector<int>& nums , vector<int> temp , vector<vector<int>>& ans){
+    void solve(int i, vector<int>& nums , vector<int> &temp , vector<vector<int>>& ans){
 
         //base case
         if(i == n){
