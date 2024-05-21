@@ -3,10 +3,19 @@ public:
     
     int n;
 
-    void solve(int i, vector<int>& nums , vector<int> &temp , vector<vector<int>>& ans){
+    void print(vector<int> &temp){
+
+        for(int i=0; i<temp.size(); i++){
+            cout<<temp[i]<<" ";
+        }
+        cout<<endl;
+    }
+
+    void solve(int i, vector<int>& nums , vector<int> temp , vector<vector<int>>& ans){
 
         //base case
         if(i == n){
+            print(temp);
             ans.push_back(temp);
             return;
         }
