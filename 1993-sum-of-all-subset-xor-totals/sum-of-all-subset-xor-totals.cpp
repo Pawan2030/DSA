@@ -3,18 +3,16 @@ public:
 
     int n;
 
-    void solve(int i , vector<int>& nums , vector<vector<int>> &ans, vector<int>& vec){
+    void solve(int i , vector<int>& nums, int &xor_val, int curr){
 
-        if(i == n){
-            ans.push_back(vec);
-            return;
+        if(i >= n){
+           xor_val += curr;
+           return;
         }
         
-        vec.push_back(nums[i]);
-        solve(i+1 , nums , ans , vec);
+        solve(i+1 , nums , xor_val , curr^nums[i]);
 
-        vec.pop_back();
-        solve(i+1 , nums , ans , vec);
+        solve(i+1 , nums, xor_val , curr);
 
         return;
     }
@@ -22,24 +20,11 @@ public:
     int subsetXORSum(vector<int>& nums) {
 
         n = nums.size();
-        vector<vector<int>> ans;
-        vector<int> vec;
+        int xor_val = 0;
+        int curr = 0;
+    
+        solve(0 , nums , xor_val , curr);
 
-        solve(0 , nums , ans , vec);
-
-        int sum = 0;
-
-        for(auto &arr : ans){
-            
-            int xor_val = 0;
-
-            for(int &num : arr){
-                xor_val ^= num;
-            }
-
-            sum += xor_val;
-        }
-
-        return sum;
+        return xor_val;
     }
 };
