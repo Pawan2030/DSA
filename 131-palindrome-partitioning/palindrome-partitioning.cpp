@@ -5,7 +5,7 @@ public:
 
    bool isPalindrome(string &st , int s , int e){
       
-      while(s <= e){
+      while(s < e){
          
          if(st[s] != st[e]){
             return false;
