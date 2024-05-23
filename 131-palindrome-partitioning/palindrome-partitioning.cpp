@@ -1,48 +1,48 @@
 class Solution {
 public:
-   
-   int n;
 
-   bool isPalindrome(string &st , int s , int e){
-      
-      while(s < e){
-         
-         if(st[s] != st[e]){
-            return false;
+    bool isPalindrome(string &st , int s, int e){
+
+         while(s < e){
+
+            if(st[s] != st[e]){
+                return false;
+            }
+            s++;
+            e--;
          }
-         s++;
-         e--;
-      }
 
-      return true;
-   } 
-
-   void solve(int idx , string &s , vector<vector<string>>& result, vector<string>& temp){
-
-    if(idx >= n){
-       result.push_back(temp);
-       return;
+         return true;
     }
-    
-    for(int i = idx ; i<n; i++){
+   
+    void solve(int idx , string &s , int n , vector<vector<string>> &result , vector<string> &temp){
+         
+          if(idx >= n){
+            result.push_back(temp);
+            return;
+          }
 
-      if(isPalindrome(s , idx , i)){
-          temp.push_back(s.substr(idx , i - idx + 1));
-          solve(i+1 , s , result , temp);
-          temp.pop_back();
-      }
+          for(int i=idx ; i<n; i++){
+              
+              if(isPalindrome(s , idx , i)){
+                 temp.push_back(s.substr(idx , i - idx + 1));
+                 solve(i+1 , s , n , result , temp);
+                 temp.pop_back();
+              }
+          }
+
+          return;
     }
-}
     
     vector<vector<string>> partition(string s) {
-        
-        n = s.size();
 
-        vector<vector<string>> result;
-        vector<string> temp;
+       int n = s.size();  
+       vector<vector<string>> result;
 
-        solve(0 , s , result , temp);
+       vector<string> temp;
 
-        return result;
+       solve(0 , s , n , result , temp);
+
+       return result;
     }
 };
