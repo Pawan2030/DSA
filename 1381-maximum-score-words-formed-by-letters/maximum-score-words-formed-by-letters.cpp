@@ -1,57 +1,73 @@
 class Solution {
 public:
-    // Function to check if a word is valid with the given frequencies
     bool valid(string& word, unordered_map<char, int>& freq) {
-        unordered_map<char, int> tempFreq = freq; // Use a temporary map to avoid modifying the original
+
+        unordered_map<char, int> temp = freq;
+
         for (char& ch : word) {
-            if (tempFreq[ch] <= 0) {
+
+            if (temp[ch] <= 0) {
                 return false;
             }
-            tempFreq[ch]--;
+
+            temp[ch]--;
         }
-        // Update the original frequency map only if the word is valid
-        freq = tempFreq;
+        
+        freq = temp;
         return true;
     }
 
-    int backtracking(int idx, vector<string>& words, unordered_map<string, int>& calc, unordered_map<char, int>& freq) {
-        // Base case: if we've considered all words, return 0
+    int backtracking(int idx, vector<string>& words,
+                     unordered_map<string, int>& calc,
+                     unordered_map<char, int>& freq) {
+
+        // base case
         if (idx >= words.size()) {
             return 0;
         }
 
-        // Case 1: Skip the current word
-        int skip = backtracking(idx + 1, words, calc, freq);
+        // take
+        // whice one is taken --> check validity
 
-        // Case 2: Take the current word (if valid)
         int take = 0;
+
         if (valid(words[idx], freq)) {
-            take = calc[words[idx]] + backtracking(idx + 1, words, calc, freq);
-            // After the recursive call, restore the original frequencies by "un-using" the letters of the word
-            for (char& ch : words[idx]) {
+
+            take = calc[words[idx]] +
+                                 backtracking(idx + 1, words, calc, freq);
+
+             for (char& ch : words[idx]) {
                 freq[ch]++;
             }
         }
 
-        // Return the maximum score between taking and skipping the current word
+        // not take
+        int skip = backtracking(idx + 1, words, calc, freq);
+
         return max(take, skip);
     }
 
-    int maxScoreWords(vector<string>& words, vector<char>& letters, vector<int>& score) {
-        // Initialize the answer
-        int ans = 0;
+    int maxScoreWords(vector<string>& words, vector<char>& letters,
+                      vector<int>& score) {
 
-        // Count the frequency of each letter in the given set of letters
+        // count freq of all characters
         unordered_map<char, int> freq;
+
         for (char& letter : letters) {
+
             freq[letter]++;
         }
 
-        // Calculate the score for each word
+        // count all score in begining
+
         unordered_map<string, int> calc;
+
         for (string& word : words) {
+
             int total = 0;
+
             for (char& ch : word) {
+
                 if (freq.find(ch) != freq.end()) {
                     total += score[ch - 'a'];
                 } else {
@@ -59,12 +75,12 @@ public:
                     break;
                 }
             }
+
             calc[word] = total;
         }
 
-        // Start the backtracking process
-        ans = backtracking(0, words, calc, freq);
+        // let game begin's
 
-        return ans;
+        return backtracking(0, words, calc, freq);
     }
 };
