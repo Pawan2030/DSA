@@ -1,52 +1,56 @@
 class Solution {
 public:
-    
+
     int n;
 
-    void solve(int idx , string &s , vector<string>& arr , unordered_map<string , int>& mp , string &temp){
+    void solve(int idx, string& s, unordered_map<string, int>& mp , vector<string> &result , string &curr) {
 
-        //base case
-        if(idx >= n){
-            arr.push_back(temp);
+        // base case
+
+        if (idx >= n) {
+            result.push_back(curr);
             return;
         }
 
-        //GAME
-        for(int j = idx ; j<n; j++){
+        // process
 
-            string curr = s.substr(idx , j - idx + 1);
+        for (int j = idx; j < n; j++) {
+ 
+            string real = s.substr(idx, j - idx + 1);
+            string temp = curr;
 
-            if(mp.find(curr) != mp.end()){
-                
-                string let = temp;
+            if (mp.find(real) != mp.end()) {
 
-                if(!temp.empty()){
-                    temp +=  " ";
+                //string temp = curr;
+                if(!curr.empty()){
+                    curr += " ";
                 }
-                
-                temp += curr;
-        
-                solve(j+1 , s , arr , mp , temp);
 
-                temp = let;
+                curr += real;
+
+                solve(j + 1, s, mp , result , curr);
+                
+                curr = temp;
             }
         }
     }
-
     vector<string> wordBreak(string s, vector<string>& wordDict) {
 
-        vector<string> arr;
         n = s.size();
+        vector<string> result;
+        string curr = "";
 
-        unordered_map<string , int> mp;
-        string temp = "";
+        // string real = "";
 
-        for(string &st : wordDict){
+        unordered_map<string, int> mp;
+
+        for (string& st : wordDict) {
+
             mp[st]++;
         }
 
-        solve(0 , s , arr , mp , temp);
+        solve(0, s, mp , result , curr);
 
-        return arr;       
+        return result;
     }
 };
