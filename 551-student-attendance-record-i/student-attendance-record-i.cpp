@@ -1,45 +1,34 @@
 class Solution {
 public:
     bool checkRecord(string s) {
-
+        
         int n = s.size();
-        int absent = 0;
-        int i  = 0;
 
-        while (i < n) {
+        int ab = 0;
+        int cl = 0;
+        int i = 0;
 
-            if (s[i] == 'A') {
-                absent++;
+        while(i < n){
 
-                if (absent >= 2) {
-                    return false;
-                }
+            char ch = s[i];
 
-                i++;
-
-            } 
-            else if (s[i] == 'L') {
-
-                int cnt = 0;
-                char curr = 'L';
-
-                while (i < n && curr == s[i]) {
-
-                    cnt++;
-
-                    if (cnt >= 3) {
-                        return false;
-                    }
-
-                    i++;
-                }
+            if(ch == 'A'){
+                ab++;
+                cl = 0;
             }
-            else{
-             
-                i++;
-            }  
-        }
+            else if(ch == 'P'){
+                cl = 0;
+            }
+             else {
+                cl++;
+            }
 
+            if(ab >= 2 || cl >= 3){
+                return false;
+            }
+
+            i++;
+        }
         return true;
     }
 };
