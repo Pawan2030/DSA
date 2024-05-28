@@ -7,27 +7,18 @@ public:
         int n = nums.size();
 
         sort(nums.begin() , nums.end());
-        int res = -1;
+       
+        for(int x = 0; x<=100; x++){
 
-        for(int i = 0; i<=100; i++){
-             
-             int x = i;
-             int cnt = 0;
-             int p;
+            int lower = lower_bound(nums.begin() , nums.end() , x) - nums.begin();
 
-             for(p=0; p<n; p++){
-                 
-                  if(x <= nums[p]){
-                      cnt++;
-                  }
-             }
-
-             if(x == cnt){
-                 res = cnt;
+            int cnt = n - lower;
+               
+            if(x == cnt){
+                 return x;
              }
         }
 
-        return res;
-
+        return -1;
     }
 };
