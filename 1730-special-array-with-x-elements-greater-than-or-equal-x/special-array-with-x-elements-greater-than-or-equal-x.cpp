@@ -8,7 +8,7 @@ public:
 
         sort(nums.begin() , nums.end());
        
-        for(int x = 0; x<=100; x++){
+        for(int x = 0; x<=n; x++){
 
             int lower = lower_bound(nums.begin() , nums.end() , x) - nums.begin();
 
