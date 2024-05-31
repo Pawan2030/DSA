@@ -11,7 +11,7 @@ public:
              char ch = word[i];
              int cnt = 0;
 
-             while(ch == word[i]){
+             while(i < n && ch == word[i]){
                 cnt++;
                 i++;
              }
