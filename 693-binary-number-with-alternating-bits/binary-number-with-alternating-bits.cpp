@@ -7,16 +7,16 @@ public:
          while(n > 1){
               
               if(n%2 != 0){
-                  s+= to_string(1);
+                  s+= '1';
               }
               else{
-                  s+= to_string(0);
+                  s+= '0';
               }
               n /= 2;
          }
 
          //last one
-          s+= to_string(1);
+          s+= '1';
           reverse(s.begin() , s.end());
 
           for(int i=1; i<s.size() ; i++){
