@@ -6,12 +6,7 @@ public:
 
          while(n > 1){
               
-              if(n%2 != 0){
-                  s+= '1';
-              }
-              else{
-                  s+= '0';
-              }
+              s += to_string(n%2);
               n /= 2;
          }
 
