@@ -3,12 +3,12 @@ public:
 
     int n;
     int maxi = INT_MIN;
-    bool t[2001][2001];
+    bool t[2001][4001];
 
     void solve(int index , vector<int>& arr , int sum){
         
         //base case
-        if(index >= n || sum > 2000){
+        if(index >= n ){
             maxi = max(maxi , sum);
             return;
         }
