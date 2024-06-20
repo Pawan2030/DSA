@@ -13,7 +13,7 @@ public:
               prev = i;
            }
 
-           if(balls == m) return true;
+           //if(balls == m) return true;
        }
 
        return balls >= m;
