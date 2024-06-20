@@ -3,20 +3,20 @@ public:
      
     bool isPlacedPossible(int mid , vector<int>& pos, int m){
        
-       int balls = m-1;
+       int balls = 1;
        int prev = 0;
 
        for(int i = 1; i < pos.size(); i++){
            
            if(pos[i] - pos[prev] >= mid){
-              balls--;
+              balls++;
               prev = i;
            }
 
-           if(balls == 0) return true;
+           if(balls == m) return true;
        }
 
-       return balls == 0;
+       return balls >= m;
     }
 
 
