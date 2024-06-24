@@ -1,29 +1,68 @@
 class Solution {
 public:
+    
+    typedef pair<int , int> p;
+
     int longestSubarray(vector<int>& nums, int limit) {
-        int n = nums.size(), minVal = INT_MAX, res = 1, left, right;
-        multiset<int> s;
-        left = 0;
-        for(int i = 0; i < n; i++){
-            s.insert(nums[i]);
-            while(true){
-                // ptr points to the top element
-                auto start = s.begin(); // least element
-                auto end = --s.end(); // max element
-                if(*end - *start > limit){
-                    // remove the left most element
-                    auto rem = s.lower_bound(nums[left]);
-                    s.erase(rem);
-                    left += 1; // Change the window length
+
+
+        priority_queue<p> maxp;
+        priority_queue<p , vector<p> , greater<p>> minp;
+        int n = nums.size();
+
+        int maxLength = 0;
+
+        int i = 0;
+        int j = 0;
+
+      
+
+        while(i < n){
+            
+            //push Element in Priority Queue
+            maxp.push({nums[i] , i});
+            minp.push({nums[i] , i});
+           
+           int minEle = minp.top().first;
+           int maxEle = maxp.top().first;
+
+           //check validity
+           while(maxEle - minEle > limit){
+
+              //check from whice pq need to pop
+              int max_idx = maxp.top().second;
+              int min_idx = minp.top().second;
+
+              if(max_idx > min_idx){
+
+                //pop from minp
+                j = min_idx + 1;
+
+                while(minp.top().second < j){
+                    minp.pop();
                 }
-                else{
-                    break;
-                }
-            }
-            int len = -1;
-            len = s.size();
-            res = max(res, len);
+
+              }
+              else{
+                 
+                 //pop from maxp
+                  j = max_idx + 1;
+
+                  while(maxp.top().second < j){
+                      maxp.pop();
+                  }
+              }
+
+              minEle = minp.top().first;
+              maxEle = maxp.top().first; 
+           }
+
+           //update length
+
+           maxLength = max(maxLength , i-j+1);
+           i++;
         }
-        return res;
+
+        return maxLength;
     }
 };
