@@ -12,25 +12,45 @@
 class Solution {
 public:
 
-    void solve(TreeNode* root , int &sum){
+    void inorder(TreeNode* root , vector<int>& arr){
 
         if(root == NULL){
             return;
         }
 
-        solve(root->right , sum);
-        root->val += sum;
-        sum = root->val;
+        inorder(root->left , arr);
+        arr.push_back(root->val);
+        inorder(root->right , arr);
+    }
 
-        solve(root->left , sum);
-        //root->val += sum;
+    void putValue(TreeNode* root , vector<int>& arr , int& idx){
+         
+        if(!root) return;
 
+        putValue(root->left , arr , idx);
+
+        root->val = arr[idx++];
+
+        putValue(root->right , arr , idx);
     }
 
     TreeNode* bstToGst(TreeNode* root) {
+
+        vector<int> arr;
+
+        inorder(root , arr);
+
+        for(int i = arr.size() - 2; i >=0 ; i--){
+
+            arr[i] += arr[i+1];
+        }
+
+        cout<<arr[0];
         
-        int sum = 0;
-        solve(root , sum);
+        int idx = 0;
+
+        putValue(root , arr , idx);
+
         return root;
         
     }
