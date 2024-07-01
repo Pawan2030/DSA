@@ -1,44 +1,44 @@
 class Solution {
 public:
+    void solve(int i , unordered_map<int , vector<int>>& adj , vector<int>& temp ,  vector<bool>& vec){
+         
+          //if(vec[i] == 1) return;
+
+          for(auto it : adj[i]){
+
+            if(vec[it] == 1) continue;
+            
+               temp.push_back(it);
+               vec[it] = 1;  
+             
+             solve(it , adj , temp , vec);
+          }
+    }
+
     vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
-        vector<int> degrees(n);
-        vector<vector<int>> g(n, vector<int>());
+        
+        unordered_map<int , vector<int>> adj;
 
-        for (auto& edge : edges) {
-            g[edge[0]].push_back(edge[1]);
-            degrees[edge[1]]++;
+        for(auto& edge : edges){
+
+            int u = edge[0];
+            int v = edge[1];
+
+            adj[v].push_back(u);
         }
 
-        vector<vector<int>> anc(n, vector<int>());
-        queue<int> q;
-        for (int i = 0; i < n; i++) {
-            if (degrees[i] == 0)
-                q.push(i);
+        vector<vector<int>> res;
+
+        for(int i = 0; i<n ; i++){
+
+            vector<bool> vec(n , 0);
+            vector<int> temp;
+            solve(i , adj , temp , vec);
+            sort(begin(temp) , end(temp));
+            res.push_back(temp);
+
         }
 
-        vector<unordered_set<int>> dup(n);
-        while (!q.empty()) {
-            int fr = q.front();
-            q.pop();
-            for (int c : g[fr]) {
-                dup[c].insert(fr);
-                anc[c].push_back(fr);
-                for (int gr : anc[fr]) {
-                    if (dup[c].find(gr) == dup[c].end()) {
-                        dup[c].insert(gr);
-                        anc[c].push_back(gr);
-                    }
-                }
-                degrees[c]--;
-                if (degrees[c] == 0)
-                    q.push(c);
-            }
-        }
-
-        for (int i = 0; i < n; i++) {
-            sort(anc[i].begin(), anc[i].end());
-        }
-
-        return anc;
+        return res;
     }
 };
