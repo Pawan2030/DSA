@@ -23,10 +23,6 @@ public:
             i++;
         }
           
-        if(cnt <= 0){
-            return 0;
-        }
-
          return cnt;
     }
 };
