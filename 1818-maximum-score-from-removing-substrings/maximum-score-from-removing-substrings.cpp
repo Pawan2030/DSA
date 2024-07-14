@@ -1,67 +1,49 @@
 class Solution {
 public:
+
+   string removeString(string s , string str , int point , int &res){
+
+       stack<char> st;
+       int i = 0;
+
+       while(i < s.length()){
+           
+           if(!st.empty() && st.top() == str[0] && s[i] == str[1]){
+               res += point;
+               st.pop();
+           }
+           else{
+             st.push(s[i]);
+           }
+           i++;
+       }
+
+       //return rest string 
+       string temp = "";
+
+       while(!st.empty()){
+          temp += st.top();
+          st.pop();
+       }
+
+       reverse(temp.begin() , temp.end());
+       return temp;
+   }
+
+
     int maximumGain(string s, int x, int y) {
-        stack<char> st1;
-        int ans = 0;
 
-        if (x > y) {
-            // Process 'ab' pairs first
-            for (char ch : s) {
-                if (!st1.empty() && st1.top() == 'a' && ch == 'b') {
-                    st1.pop();
-                    ans += x;
-                } else {
-                    st1.push(ch);
-                }
-            }
-            
-            // Collect remaining characters back into s
-            s.clear();
-            while (!st1.empty()) {
-                s += st1.top();
-                st1.pop();
-            }
-            reverse(s.begin(), s.end());
 
-            // Process 'ba' pairs
-            for (char ch : s) {
-                if (!st1.empty() && st1.top() == 'b' && ch == 'a') {
-                    st1.pop();
-                    ans += y;
-                } else {
-                    st1.push(ch);
-                }
-            }
-        } else {
-            // Process 'ba' pairs first
-            for (char ch : s) {
-                if (!st1.empty() && st1.top() == 'b' && ch == 'a') {
-                    st1.pop();
-                    ans += y;
-                } else {
-                    st1.push(ch);
-                }
-            }
-            
-            // Collect remaining characters back into s
-            s.clear();
-            while (!st1.empty()) {
-                s += st1.top();
-                st1.pop();
-            }
-            reverse(s.begin(), s.end());
+       string max_point_str = x > y ? "ab" : "ba";
+       string min_point_str = x > y ? "ba" : "ab";
 
-            // Process 'ab' pairs
-            for (char ch : s) {
-                if (!st1.empty() && st1.top() == 'a' && ch == 'b') {
-                    st1.pop();
-                    ans += x;
-                } else {
-                    st1.push(ch);
-                }
-            }
-        }
+       int max_point = max(x , y);
+       int min_point = min(x , y);
+       int res = 0;
 
-        return ans;
+       string temp = removeString(s   , max_point_str , max_point , res);
+       string tem = removeString(temp , min_point_str , min_point , res);
+
+       return res;
     }
 };
