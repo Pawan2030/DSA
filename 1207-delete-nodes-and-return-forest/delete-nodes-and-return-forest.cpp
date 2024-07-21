@@ -46,7 +46,9 @@ public:
 
         vector<TreeNode*> arr;
 
-        if(solve(root , st , arr)){
+        solve(root , st , arr);
+
+        if(!st.count(root->val)){
             arr.push_back(root);
         }
 
