@@ -1,38 +1,55 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
-    vector<TreeNode*> ans;
-    unordered_map<int,bool> mp;
 
-    void solve(TreeNode* root,TreeNode* prev)
-    {
-         if(!root) return ;
-         TreeNode* lft = root->left;
-         TreeNode* rgt = root->right;
-         if(mp.find(root->val)!=mp.end())
-         {
-             if(prev!=NULL)
-             {
-                 if(prev->left==root) prev->left = NULL;
-                 else if(prev->right==root) prev->right = NULL;
+    TreeNode* solve(TreeNode* root , unordered_set<int>& st , vector<TreeNode*>& arr){
+
+        if(!root) return NULL;
+
+        root->left  = solve(root->left  , st , arr);
+        root->right = solve(root->right , st , arr);
+
+        if(st.count(root->val)){
+             
+             if(root->left != NULL){
+                arr.push_back(root->left);
              }
-            root->left = NULL;
-            root->right = NULL;
-            if(lft && mp.find(lft->val)==mp.end()) ans.push_back(lft);
-            if(rgt && mp.find(rgt->val)==mp.end()) ans.push_back(rgt);
 
-            solve(lft,NULL);
-            solve(rgt,NULL);
-         }
-         else
-         {
-             solve(lft,root);
-             solve(rgt,root);
-         }
+             if(root->right != NULL){
+                arr.push_back(root->right);
+             }
+
+            return NULL;
+
+        }
+
+         return root;
     }
+
     vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {
-         for(auto x : to_delete) mp[x] = 1;
-         if(mp.find(root->val)==mp.end()) ans.push_back(root);
-         solve(root,NULL);
-         return ans;
+
+        unordered_set<int> st;
+
+        for(int num : to_delete){
+            st.insert(num);
+        }
+
+        vector<TreeNode*> arr;
+
+        if(solve(root , st , arr)){
+            arr.push_back(root);
+        }
+
+        return arr; 
     }
 };
