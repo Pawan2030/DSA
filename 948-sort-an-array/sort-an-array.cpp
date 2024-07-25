@@ -1,20 +1,33 @@
 class Solution {
 public:
+
     vector<int> sortArray(vector<int>& nums) {
 
-        priority_queue<int , vector<int> , greater<int>> pq;
+        //lets implemet by counting sort
+
+        int maxi  = INT_MIN;
+        int mini  = INT_MAX;
+        unordered_map<int,int> mp;
 
         for(int num : nums){
-            pq.push(num);
+
+            maxi = max(maxi , num);
+            mini = min(mini  , num);
+            mp[num]++;
         }
 
-        int i = 0;
+        vector<int> ans;
 
-        while(!pq.empty()){
-            int top  = pq.top();
-            pq.pop();
-            nums[i++] = top;
+        for(int i = mini; i<= maxi; i++){
+
+            int val  = i;
+            int freq = mp[i];
+
+            while(freq--){
+                ans.push_back(val);
+            }
         }
-        return nums;
+
+        return ans;
     }
 };
