@@ -6,28 +6,34 @@ public:
         //priority_queue<pair<int,pair<int,int>> , vector<pair<int,pair<int,int>>> , greater<pair<int,pair<int,int>>>> pq;
         queue<pair<int,pair<int,int>>> pq;
         pq.push({0 , {0 , s}}); //cost -> stop, station
-      
+        int level = 0;
 
-        while(!pq.empty()){
+        while(!pq.empty() && level <= k){
             
-            int w    = pq.front().first;
-            int stop = pq.front().second.first;
-            int u    = pq.front().second.second;
-            pq.pop();
-
+            int size = pq.size();
+        
             //if(stop > k) continue;
 
-            for(auto &ngr : adj[u]){
+            while(size--){
 
-            int node = ngr[0];
-            int    d = ngr[1];
+                int w    = pq.front().first;
+                int stop = pq.front().second.first;
+                int u    = pq.front().second.second;
+                pq.pop(); 
 
-            if(w+d < miniCost[node] && stop <= k){
-                miniCost[node] = w+d;
-                pq.push({w+d , {stop+1 , node}});
+                for(auto &ngr : adj[u]){
+
+                int node = ngr[0];
+                int    d = ngr[1];
+
+                if(w+d < miniCost[node]){
+                        miniCost[node] = w+d;
+                        pq.push({w+d , {stop+1 , node}});
+                    }
+                }
             }
-        }
-
+         
+         level++;
     }
 }
 
