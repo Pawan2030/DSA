@@ -1,58 +1,48 @@
 class Solution {
 public:
-    void miniCostFinder(char s, unordered_map<char, vector<pair<char, int>>>& adj, vector<long long>& vec) {
-        priority_queue<pair<long long, char>, vector<pair<long long, char>>, greater<pair<long long, char>>> pq;
-        pq.push({0, s});
-        vec[s - 'a'] = 0;
+    void floydWarshall(vector<vector<int>>& mat) {
+        int n = mat.size();
 
-        while (!pq.empty()) {
-            auto [w, u] = pq.top();
-            pq.pop();
-
-            for (auto& it : adj[u]) {
-                char ch = it.first;
-                int d = it.second;
-
-                if (w + d < vec[ch - 'a']) {
-                    vec[ch - 'a'] = w + d;
-                    pq.push({w + d, ch});
+        // Apply Floyd-Warshall algorithm
+        for (int via = 0; via < n; via++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (mat[i][via] != INT_MAX && mat[via][j] != INT_MAX) {
+                        mat[i][j] = min(mat[i][j], mat[i][via] + mat[via][j]);
+                    }
                 }
             }
         }
     }
 
     long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) {
-        unordered_map<char, vector<pair<char, int>>> adj;
-        int n = cost.size();
+        vector<vector<int>> mat(26, vector<int>(26, INT_MAX));
 
+        // Initialize the matrix with 0 for self transformations
+        for (int i = 0; i < 26; i++) {
+            mat[i][i] = 0;
+        }
+
+        // Apply the given transformations
+        int n = original.size();
         for (int i = 0; i < n; i++) {
-            char u = original[i];
-            char v = changed[i];
-            int w = cost[i];
-            adj[u].push_back({v, w});
+            mat[original[i] - 'a'][changed[i] - 'a'] = min(mat[original[i] - 'a'][changed[i] - 'a'], cost[i]);
         }
 
-        vector<vector<long long>> vec(26, vector<long long>(26, LLONG_MAX));
+        // Apply Floyd-Warshall to find all-pairs shortest paths
+        floydWarshall(mat);
 
-        for (char c = 'a'; c <= 'z'; c++) {
-            miniCostFinder(c, adj, vec[c - 'a']);
-        }
+        long long totalCost = 0;
 
-        int size = source.size();
-        long long miniCost = 0;
-
-        for (int i = 0; i < size; i++) {
+        // Calculate the total minimum cost for transforming source to target
+        for (int i = 0; i < source.size(); i++) {
             if (source[i] != target[i]) {
-                long long rate = vec[source[i] - 'a'][target[i] - 'a'];
-
-                if (rate == LLONG_MAX) {
-                    return -1;
-                }
-
-                miniCost += rate;
+                int cost = mat[source[i] - 'a'][target[i] - 'a'];
+                if (cost == INT_MAX) return -1;  // Transformation is not possible
+                totalCost += cost;
             }
         }
 
-        return miniCost;
+        return totalCost;
     }
 };
