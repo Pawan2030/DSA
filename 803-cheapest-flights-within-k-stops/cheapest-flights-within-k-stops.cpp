@@ -15,7 +15,7 @@ public:
             int u    = pq.front().second.second;
             pq.pop();
 
-            if(stop > k+1) continue;
+            if(stop > k) continue;
 
             for(auto &ngr : adj[u]){
 
