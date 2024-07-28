@@ -26,6 +26,8 @@ public:
             int    w = top.first;
             int    u = top.second;
             q.pop();
+
+            if(u == n && mini2[n] != INT_MAX) return mini2[n];
  
             int mode = w/change;
 
