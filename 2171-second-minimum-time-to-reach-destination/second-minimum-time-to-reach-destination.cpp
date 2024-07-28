@@ -17,17 +17,18 @@ public:
             adj[v].push_back({u , time});
         }
 
-        priority_queue<pair<int,int> , vector<pair<int,int>> , greater<pair<int,int>>> q;
+        //priority_queue<pair<int,int> , vector<pair<int,int>> , greater<pair<int,int>>> q;
+        queue<pair<int,int>> q;
         q.push({0 , 1}); // {time , node}
        
         while(!q.empty()){
 
-            auto top = q.top();
+            auto top = q.front();
             int    w = top.first;
             int    u = top.second;
             q.pop();
 
-            if(u == n && mini2[n] != INT_MAX) return mini2[n];
+           // if(u == n && mini2[n] != INT_MAX) return mini2[n];
  
             int mode = w/change;
 
