@@ -19,13 +19,13 @@ public:
 
         queue<pair<int , int>> q;
         q.push({0,1});
-        int level = 0;
+        //int level = 0;
 
         while(!q.empty()){
 
-            int size = q.size();
+            //int size = q.size();
 
-            while(size--){
+            // while(size--){
 
                 int it = q.front().second;
                 int w  = q.front().first;
@@ -48,9 +48,9 @@ public:
                         q.push({time+w , ngr});
                     }
                 }
-            }
+            //}
 
-            level++;
+            //level++;
         }
 
         return d2[n];
