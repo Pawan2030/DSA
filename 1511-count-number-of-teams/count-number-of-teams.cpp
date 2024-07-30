@@ -1,27 +1,60 @@
 class Solution {
 public:
+    
+    pair<int,int> left(int val , int n , vector<int>& rat){
+        
+        int small  = 0;
+        int greater = 0;
+
+        for(int i = 0; i<n; i++){
+
+            if(rat[i] < val){
+                small++;
+            }
+            else if(rat[i] > val){
+               greater++;
+            }
+        }
+
+        return {small , greater};
+    }
+
+    pair<int,int> right(int val , int idx , int n , vector<int>& rat){
+        
+        int small  = 0;
+        int greater = 0;
+
+        for(int i = idx; i<n; i++){
+
+            if(rat[i] < val){
+                small++;
+            }
+
+            else if(rat[i] > val){
+               greater++;
+            }
+        }
+
+        return {small , greater};
+    }
+
+
+
 
     int numTeams(vector<int>& rating) {
 
+        int teams = 0;
         int n = rating.size();
-        int count = 0;
-
-        if(n < 3) return count;
 
         for(int i=0; i<n; i++){
-            for(int j=i+1; j<n; j++){
-                for(int k = j+1; k<n; k++){
+           
+           auto [ leftSmaller   ,  leftGreater]  = left(rating[i] , i , rating);
+           auto [ rightSmaller ,  rightGreater] = right(rating[i] , i+1 , n , rating);
 
-                    if(rating[i] < rating[j] && rating[j] < rating[k]){
-                        count++;
-                    }
-                    else if(rating[i] > rating[j] && rating[j] > rating[k]){
-                        count++;
-                    }
-                }
-
-            }
+           teams += (leftSmaller * rightGreater);
+           teams += (leftGreater * rightSmaller);
         }
-        return count;
+
+        return teams;
     }
 };
