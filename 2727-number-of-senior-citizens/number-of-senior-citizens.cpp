@@ -8,17 +8,10 @@ public:
 
         for(int i=0; i<n; i++){
 
-            string s = details[i];
-
-            char ch1 = s[11];
-            char ch2 = s[12];
-
             string st = "";
-            st += ch1;
-            st += ch2;
-
-            cout<<ch1 << "  "<<ch2<<endl;
-
+            st  +=  details[i][11];
+            st  +=  details[i][12];
+        
             int age = stoi(st);
 
             cout<<"AGE ->"<<age<<endl;
