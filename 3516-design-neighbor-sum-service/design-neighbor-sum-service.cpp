@@ -5,9 +5,9 @@ public:
     vector<vector<int>> grid;
 
     neighborSum(vector<vector<int>>&  ggrid) {
-    
-      n = ggrid.size();
+
       grid = ggrid;
+      n = grid.size();
            
     }
     
