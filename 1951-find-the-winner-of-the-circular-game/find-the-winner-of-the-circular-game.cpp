@@ -1,18 +1,29 @@
 class Solution {
 public:
-    
-    int find(int n , int k){
 
-        if(n == 1){
-            return 0;
+    void solve(vector<int> &vec ,int idx , int k , int &ans){
+
+        //base case
+        if(vec.size() == 1){
+            ans = vec[0];
+            return;
         }
-
-        int idx = find(n-1 , k);
-        idx = (idx+k)%n;
-        return idx;
+        
+        idx = (idx+k)%(vec.size());
+        vec.erase(vec.begin()+idx);
+        solve(vec , idx , k , ans);
     }
 
     int findTheWinner(int n, int k) {
-        return find(n , k)+1;
+        
+        vector<int> vec(n);
+
+        for(int i=0; i<n; i++){
+            vec[i] = i+1;
+        }
+
+        int ans;
+        solve(vec , 0 , k-1 , ans);
+        return ans;
     }
 };
