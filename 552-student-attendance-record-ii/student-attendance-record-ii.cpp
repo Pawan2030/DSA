@@ -1,45 +1,32 @@
 class Solution {
 public:
+    
+    int t[100001][2][3];
+    int mod = 1e9+7;
 
-    #define MOD 1000000007 
-    //1e9 + 7 
+    int solve(int n , int ab , int late){
 
-    int solve(int n , vector<vector<vector<int>>> &t){
-
-        //base case for i = 0th days
-
-        for(int A = 0; A <= 1; A++){
-
-            for(int L = 0; L <= 2; L++){
-                 
-                 t[0][A][L] = 1;
-            }
-         }
-        
-        for(int i = 1; i<=n; i++){
-
-            for(int A = 0; A <= 1; A++){
-
-                for(int L = 0; L <= 2; L++){
-
-                     
-                    long ans = t[i-1][A][0];
-                    ans += ( A+1 <= 1 ? t[i-1][A+1][0] : 0);
-                    ans += ( L+1 <= 2 ? t[i-1][A][L+1] : 0); 
-
-                     t[i][A][L] = ans%MOD;  
-                }
-            }
+        if(ab == 2 || late == 3 || n < 0){
+            return 0;
         }
 
-        return t[n][0][0];
+        if(n == 0){
+            return 1;
+        }
+
+        if(t[n][ab][late] != -1) return t[n][ab][late];
+
+        int ans = 0;
+        ans =  (ans%mod + solve(n-1 , ab , 0)%mod); // for present
+        ans =  (ans%mod + solve(n-1 , ab+1 , 0)%mod); // for absent
+        ans =  (ans%mod + solve(n-1 , ab , late+1)%mod); // for late
+
+        return t[n][ab][late] = ans%mod;
     }
 
     int checkRecord(int n) {
-
-        vector<vector<vector<int>>> t(n+1 , vector<vector<int>>(2 , vector<int>(3 ,0)));
-        //int t[ n+1][absent][cosecutive_late]
-
-        return solve(n , t);  
+        
+        memset(t , -1 , sizeof(t));
+        return solve(n , 0 , 0);
     }
 };
