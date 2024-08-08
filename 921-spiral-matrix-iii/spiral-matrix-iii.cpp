@@ -15,7 +15,7 @@ public:
 
          int step = 0;
 
-        for(int p = 0; p<n; p++){
+        while(path.size() < n){
           
           //east
           step += 1;
