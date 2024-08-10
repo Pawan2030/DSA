@@ -1,79 +1,34 @@
 class Solution {
-public:
-
-    vector<vector<int>> dir = {{0 , 1} , {1 , 0} , {0 , -1} , {-1 , 0}};
-
+public: 
+    
+     vector<vector<int>> dir = {
+        {0 , 1}, {1 , 0}, {0 , -1}, {-1 , 0}
+     };
+    
     vector<vector<int>> spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
-         
-         int n = rows*cols;
-         vector<vector<int>> path;
 
-         path.push_back({rStart , cStart});
+        vector<vector<int>> path;
+        path.push_back({rStart , cStart});
+        int step = 0;
+        int d = 0;
 
-         int i = rStart;
-         int j = cStart;
+        while(path.size() < rows*cols){
 
-         int step = 0;
-
-        while(path.size() < n){
-          
-          //east
-          step += 1;
-          int k = step;
-
-          while(k--){
-             
-             i += dir[0][0];
-             j += dir[0][1];
-
-             if(i >=0 && i < rows && j >= 0 && j < cols){
-                path.push_back({i , j});
-             }
-          }
-
-          //south
-            k = step;
-            while(k--){
-             
-            i += dir[1][0];
-            j += dir[1][1];
-
-            if(i >=0 && i < rows && j >= 0 && j < cols){
-                path.push_back({i , j});
+            if(d == 0 || d == 2){
+                step += 1;
             }
-          }
 
-          //west
-          step += 1;
-          k = step;
-
-            while(k--){
-             
-            i += dir[2][0];
-            j += dir[2][1];
-
-            if(i >=0 && i < rows && j >= 0 && j < cols){
-                path.push_back({i , j});
+            for(int st = 0; st<step; st++){
+                
+                rStart += dir[d][0];
+                cStart += dir[d][1];
+                
+                if(rStart>=0 && rStart<rows && cStart>=0 && cStart<cols)
+                  path.push_back({rStart , cStart});
             }
-          }
-
-          //north
-
-            k = step;
-
-            while(k--){
-             
-            i += dir[3][0];
-            j += dir[3][1];
-
-            if(i >=0 && i < rows && j >= 0 && j < cols){
-                path.push_back({i , j});
-            }
-          }
-
+            
+            d = (d+1)%4;
         }
-
         return path;
-
     }
 };
