@@ -40,20 +40,20 @@ public:
 
         solve(0 , candidates , target, temp , sum);
 
-        sort(begin(ans) , end(ans));
+        //sort(begin(ans) , end(ans));
         
-        int i =0;
+       // int i =0;
 
-        while(i < ans.size()){
+        // while(i < ans.size()){
 
-            auto it = ans[i];
+        //     auto it = ans[i];
 
-            while(i < ans.size() && it == ans[i]){
-                i++;
-            }
+        //     while(i < ans.size() && it == ans[i]){
+        //         i++;
+        //     }
 
-            res.push_back(it);
-        }
-        return res;
+        //     res.push_back(it);
+        // }
+        return ans;
     }
 };
