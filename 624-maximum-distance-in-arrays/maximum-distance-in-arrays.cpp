@@ -2,26 +2,28 @@ class Solution {
 public:
 
     int maxDistance(vector<vector<int>>& arrays) {
-        
-        sort(begin(arrays) , end(arrays));
+         
+         int n = arrays.size();
 
-        // int small = arrays[0][0];
-       // int big   = INT_MIN;
-        int diff = -1;
+         int res = INT_MIN;
 
-        for(auto it = 1; it<arrays.size(); it++){
+         int mini = arrays[0].front();
+         int maxi = arrays[0].back();
 
-            for(auto i=0; i<arrays[it].size(); i++){
+         for(auto it = 1; it<n; it++){
+             
+             int f = arrays[it].front();
+             int l = arrays[it].back();
 
-                for(int k : arrays[0]){
+             int d1 = abs(mini - l);
+             res = max(res , d1);
+             d1  = abs(maxi - f);
+             res = max(res , d1);
 
-                    int d = abs(k - arrays[it][i]);
-                    diff  = max(diff , d);
-                }
-               
-            }
-        }
+             maxi = max(maxi , l);
+             mini = min(mini , f);
 
-        return diff;
+         }
+         return res;
     }
 };
