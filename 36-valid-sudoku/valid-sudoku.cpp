@@ -1,82 +1,27 @@
 class Solution {
 public:
 
-    bool check(vector<vector<char>>& board , int sr , int er , int sc , int ec){
-
-        unordered_set<int> st;
-
-        for(int i=sr; i<=er; i++){
-            for(int j=sc; j<=ec; j++){
-                
-                if(board[i][j] == '.') continue;
-
-                if(st.count(board[i][j])){
-                    cout<<"1"<<endl;
-                    return false;
-                }
-                st.insert(board[i][j]);
-            }
-        }
-        
-        return true;
-    }
-
     bool isValidSudoku(vector<vector<char>>& board) {
 
-        int n = 9;
-        
-        //row check
-        for(int i=0; i<n; i++){
+        unordered_set<string> st;
 
-            unordered_set<int> st;
-
-            for(int j=0; j<n; j++){
+        for(int i=0; i<9; i++){
+            for(int j=0; j<9; j++){
 
                 if(board[i][j] == '.') continue;
-                
-                if(st.count(board[i][j])){
-                     cout<<"2"<<endl;
-                     return false;
-                }
-                st.insert(board[i][j]);
+
+                string row = to_string(board[i][j]) + "_ROW_" + to_string(i);
+                string col = to_string(board[i][j]) + "_COL_" + to_string(j);
+                string box = to_string(board[i][j]) + "_ROW_" + to_string(i/3) + to_string(j/3);
+
+                if(st.count(row) || st.count(col) || st.count(box)) return false;
+
+                st.insert(row);
+                st.insert(col);
+                st.insert(box);
             }
         }
-
-        //col check
-
-        for(int i=0; i<n; i++){
-            unordered_set<int> st;
-
-            for(int j=0; j<n; j++){
-
-                if(board[j][i] == '.') continue;
-                
-                if(st.count(board[j][i])){
-                    cout<<"3"<<endl;
-                    return false;
-                }
-                st.insert(board[j][i]);
-            }
-        }
-
-        // 3*3 grid check
-
-        for(int i=0; i<n; i+=3){
-
-             int sr = i;
-             int er = i+2;
-
-            for(int j=0; j<n; j+=3){
-
-                int sc = j;
-                int ec = j+2;
-
-                if(!check(board , sr , er , sc , ec)){
-                    return false;
-                }   
-            }
-        }
-
+        
         return true;
     }
 };
