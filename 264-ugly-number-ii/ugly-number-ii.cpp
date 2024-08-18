@@ -1,35 +1,35 @@
 class Solution {
 public:
+     
+    //  the moral story is to find out that ugle number are multiple of power of 2 , 3 , 5
 
     int nthUglyNumber(int n) {
 
-        vector<int> arr(n+1,0);
-        arr[1] = 1;
+        priority_queue<long long , vector<long long> , greater<long long>> pq;
+        pq.push(1);
+        unordered_set<long long> st;
+        long long val;
 
-        int t1=1, t2=1 , t3 = 1;
+        for(int i=1; i<=n; i++){
 
-        for(int i=2; i<=n; i++){
+            val = pq.top();
+            pq.pop();
 
-            int s1 = arr[t1]*2;
-            int s2 = arr[t2]*3;
-            int s3 = arr[t3]*5;
-
-            int mini = min({s1 , s2 , s3});
-
-            arr[i] = mini;
-
-            if(mini == s1){
-                t1++;
-            }
-            if(mini == s2){
-                t2++;
-            }
-            if(mini == s3){
-                t3++;
+            while(st.count(val)){
+                val = pq.top();
+                pq.pop();
             }
 
+            long long s1 = val*2;
+            long long s2 = val*3;
+            long long s3 = val*5;
+
+            pq.push(s1);
+            pq.push(s2);
+            pq.push(s3);
+
+            st.insert(val);
         }
-
-        return arr[n];
+        return val;
     }
 };
