@@ -1,38 +1,32 @@
 class Solution {
 public:
-    
-    int t[1001][1001];
-
-    int solve(int n , int curr , int clip){
-
-        if(curr == n){
-            return 0;
-        }
-
-        if(curr > n){
-            return 100000;
-        }
-
-        if(t[curr][clip] != -1){
-            return t[curr][clip];
-        }
-
-        int Copy_Paste = 2 + solve(n , curr+curr, curr);
-        int Paste      = 1 + solve(n , curr+clip, clip);
-
-        return t[curr][clip] = min(Copy_Paste , Paste);
-    }
 
     int minSteps(int n) {
-        
-        if(n == 1){
-            return 0;
-        }
-        
-        memset(t , -1 , sizeof(t));
-        int curr  = 1;
-        int clip = 1;
 
-        return solve(n , curr , clip)+1;
+        if(n == 0 || n == 1) return 0;
+        if(n == 2) return 2;
+
+        vector<int> arr(n+1);
+        arr[0] = 0;
+        arr[1] = 0;
+        arr[2] = 2;
+
+        for(int i=3; i<=n ; i++){
+             
+             int fact = i/2;
+
+             while(fact >= 1){
+
+                if(i%fact == 0){
+
+                    arr[i] = arr[fact] + 1 + (i/fact - 1);
+                    break;
+                }
+                else{
+                    fact--;
+                }
+             }
+        }
+        return arr[n];
     }
 };
