@@ -4,23 +4,16 @@ public:
     int maxScoreSightseeingPair(vector<int>& values) {
         
         int n = values.size();
-        vector<int> left(n  , -10000);
-        vector<int> right(n , -10000);
+        int score = INT_MIN;
+        int left  = values[0];
+        //int pos = 0;
 
         for(int i=1; i<n; i++){
-            left[i] = max(values[i-1]-1 , left[i-1]-1);
+
+            score = max(score , left + values[i]  - i);
+            left = max(left , values[i]+i);    
         }
-
-        for(int i = n-2; i>=0; i--){
-            right[i] = max(values[i+1]-1 , right[i+1]-1);
-        }
-
-        int ans = INT_MIN;
-
-        for(int i=0; i<n; i++){
-            ans = max(ans , values[i] + max(left[i] , right[i]));
-        }
-
-        return ans;
+        
+        return score;
     }
 };
