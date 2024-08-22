@@ -31,6 +31,7 @@ public:
         n = energyDrinkA.size();
         memset(t , -1 , sizeof(t));
         long long a = solve(0 , 0 , energyDrinkA , energyDrinkB);
+        memset(t , -1 , sizeof(t));
         long long b = solve(1 , 0 , energyDrinkA , energyDrinkB); // drink , i , arr , arr
 
         return max(a , b);
