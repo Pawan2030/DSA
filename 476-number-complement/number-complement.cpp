@@ -1,50 +1,30 @@
 class Solution {
 public:
-    
-    string num_to_Binary(int num){
-         
-         string st = "";
 
-         while(num > 0){
-            
-            int mod = num%2;
-            num /= 2;
-            st += to_string(mod);
-         }
+   /*
 
-         reverse(st.begin() , st.end());
+   int mask = same size of num bit size
 
-         return st;
-    }
+    int size = 
 
-    int binary_to_Integer(string &st){
+    int mask = (1<<size) - 1;
 
-        int i = st.length()-1;
-        int p = 0;
-        int num = 0;
+    return num ^ mask;
 
-        while(i >= 0){
-
-            int val = st[i] == '0' ? 0 : 1;
-             
-            num += (val * pow(2 , p));
-            p++;
-            i--;
-        }
-        return num;
-    }
+   */
 
     int findComplement(int num) {
-        
-        string st = num_to_Binary(num);
 
-        for(int i=0; i<st.length(); i++){
+        // num = 5;
+        //xor with 1 with ever char
 
-            st[i] = st[i] == '0' ? '1' : '0';
+        int num_bits = (int)(log2(num)) + 1;
+
+        for(int i=0; i<num_bits; i++){
+             
+            num = num^(1<<i);
         }
-
-        int ans = binary_to_Integer(st);
-
-        return ans;
+        
+        return num;
     }
 };
