@@ -1,19 +1,28 @@
 class Solution {
 public:
 
-   int gcd(int a , int b){
+//    int gcd(int a , int b){
       
-      int div = 0;
+//       int div = 0;
 
-      for(int i = 1; i<=min(a , b); i++){
+//       for(int i = 1; i<=min(a , b); i++){
           
-          if(a%i == 0 && b%i == 0){
-              div = i;
-          }
-      }
+//           if(a%i == 0 && b%i == 0){
+//               div = i;
+//           }
+//       }
 
-      return div;
-   }
+//       return div;
+//    }
+
+    int gcd(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return abs(a);
+    }
 
     string fractionAddition(string exp) {
 
@@ -62,7 +71,7 @@ public:
   
         }
 
-        int div = abs(__gcd(up , dn));
+        int div = gcd(up , dn);
 
         // if(div == 0){
         //     string res = to_string(up) + "/" + to_string(dn);
