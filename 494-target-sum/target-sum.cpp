@@ -27,7 +27,7 @@ public:
 
     int solve2(int i , vector<int>& nums , int n , int sum){
 
-        if(i>=n){
+        if(i>=n || sum < 0){
             if(sum == 0){
               return 1;
             } 
