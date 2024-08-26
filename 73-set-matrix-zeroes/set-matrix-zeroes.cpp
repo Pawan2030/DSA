@@ -1,61 +1,55 @@
 class Solution {
 public:
-    void setZeroes(vector<vector<int>>& matrix) {
 
-        int m = matrix.size();
-        int n = matrix[0].size();
-
-
-        //check Zero avaible or not
-
-        int col_zero = 1;
+    void setZeroes(vector<vector<int>>& mat) {
+        
+        //let keep the info using row and col
+        int first_col = 1;
+        int m = mat.size();
+        int n = mat[0].size();
 
         for(int i=0; i<m; i++){
-
             for(int j=0; j<n; j++){
 
-                if(matrix[i][j] == 0){
-
-                    //for row
-                    matrix[i][0] = 0;
-
-                    //for col
-                    if( j != 0){
-                        matrix[0][j] = 0;
+                if(mat[i][j] == 0){
+                    mat[i][0] = 0; //row num set whice row is zero
+                    
+                    if(j != 0){
+                        mat[0][j] = 0;
                     }
                     else{
-                        col_zero = 0;
+                        first_col = 0;
                     }
                 }
             }
         }
 
-        //phase second-> set zero where zero avaible
+        //let zero fully 
 
         for(int i=1; i<m; i++){
-
             for(int j=1; j<n; j++){
 
-                if(matrix[i][0] == 0 || matrix[0][j] == 0){
-                    matrix[i][j] = 0;
+                if(mat[i][0] == 0 || mat[0][j] == 0){
+                    mat[i][j] = 0;
                 }
             }
         }
 
-        //now let talk about first row
 
-        if(matrix[0][0] == 0){
+        //let check for first row
 
-            for(int j=0; j<n; j++){
-                matrix[0][j] = 0;
+        if(mat[0][0] == 0){
+            for(int i=0; i<n; i++){
+                    mat[0][i] = 0;
             }
-        } 
+        }
+        
+        //for col
 
-        if(col_zero == 0){
-
+        if(first_col == 0){
             for(int i=0; i<m; i++){
-                matrix[i][0] = 0;
+                    mat[i][0] = 0;
             }
-        } 
+        }
     }
 };
