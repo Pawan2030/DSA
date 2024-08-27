@@ -18,7 +18,7 @@ public:
         vector<double> dist(n , INT_MIN);
         dist[start_node] = 1;
         priority_queue<pair<double , int>> q;
-        q.push({1.0 , start_node});
+        q.push({1 , start_node});
 
         while(!q.empty()){
 
@@ -43,7 +43,7 @@ public:
         }
         
         if(dist[end_node] == INT_MIN){
-            return 0.0000;
+            return 0;
         }
 
         return dist[end_node];
