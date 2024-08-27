@@ -4,7 +4,7 @@ public:
     vector<vector<int>> res;
     int n;
 
-    void solve(vector<int>& nums , vector<int>& temp , unordered_set<int>& st){
+    void solve(vector<int>& nums , vector<int> temp , unordered_set<int> st){
         
         //base case
         if(temp.size() == n){
