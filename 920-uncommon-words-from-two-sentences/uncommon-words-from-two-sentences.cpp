@@ -1,11 +1,8 @@
 class Solution {
 public:
-
-    vector<string> uncommonFromSentences(string s1, string s2) {
+   
+   void helper(string &s1 , unordered_map<string , int>& mp){
         
-        //token from string
-        unordered_map<string , int> mp;
-
         int i =0;
         int j = 0;
         int size = s1.length();
@@ -25,22 +22,15 @@ public:
             j++;
             i = j;
         }
+   }
+
+    vector<string> uncommonFromSentences(string s1, string s2) {
         
-        size = s2.length();
-        i = 0;
-        j = 0;
+        //token from string
+        unordered_map<string , int> mp;
 
-        while(i < size){
-
-            while(j < size && s2[j] != ' '){
-                j++;
-            }
-            string temp = s2.substr(i , j-i);
-            mp[temp]++;
-
-            j++;
-            i = j;
-        }
+        helper(s1 , mp);
+        helper(s2 , mp);
 
         vector<string> res;
 
