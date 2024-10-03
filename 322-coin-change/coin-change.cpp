@@ -10,7 +10,7 @@ public:
         }
 
         if(i >= n || sum < 0){
-            return 1e7;
+            return 1e9;
         }
 
         if(t[i][sum] != -1){
@@ -31,6 +31,6 @@ public:
         n = coins.size();
         memset(t, -1, sizeof(t));
         int ans = solve(0, coins, amount);
-        return ans == 1e7 ? -1 : ans;
+        return ans == 1e9 ? -1 : ans;
     }
 };
