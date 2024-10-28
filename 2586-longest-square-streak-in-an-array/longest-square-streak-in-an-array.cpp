@@ -1,34 +1,26 @@
 class Solution {
 public:
-    int longestSquareStreak(vector<int>& nums) 
-    {
-        map<long long,long long> mp;
+    int longestSquareStreak(vector<int>& nums) {
+        
         int n = nums.size();
-        
-        for(auto it : nums)
-        {
-            mp[it]++;
-        }
-        
-        int mx = -1;
-        bool flag = false;
-        for(auto it : mp)
-        {
-            long long curr = it.first*it.first;
-            int cnt = 1;
-            while(mp.count(curr)==1)
-            {
-                cout<<curr<<" ";
-                flag = true;
-                cnt++;
-                curr = curr*curr;
-            }
+        sort(begin(nums) , end(nums));
+        unordered_map<float,float> mp;
+        int res = -1;
+
+        for(int num : nums){
             
-            mx = max(cnt,mx);
+            float val = sqrt(num);
+
+            if(mp.find(val) != mp.end()){
+
+                int streak = mp[val];
+                mp[num] = streak+1;
+                res = max(res , streak+1);
+            }
+            else{
+                mp[num] = 1;
+            }
         }
-        
-        if(!flag) return -1;
-        
-        return mx;
+        return res;
     }
 };
