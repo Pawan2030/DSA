@@ -14,13 +14,17 @@ public:
             while(i < n && ch == word[i]){
                 cnt += 1;
                 i++;
+
+                if(cnt >= 9){
+                    break;
+                }
             }
 
-            while(cnt > 9){
-                cnt -= 9;
-                comp += "9";
-                comp += ch;
-            }
+            // while(cnt > 9){
+            //     cnt -= 9;
+            //     comp += "9";
+            //     comp += ch;
+            // }
 
             comp += to_string(cnt);
             comp += ch;
