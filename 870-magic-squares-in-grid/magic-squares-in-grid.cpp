@@ -1,70 +1,69 @@
 class Solution {
 public:
-    
-    int rows;
-    int cols;
 
-    bool isMagicalGrid(vector<vector<int>>& mat , int x , int y){
+    void isDistinct(int x , int y , vector<vector<int>>& grid , bool &okay){
         
-        //distinct and 1 to 9
-
         unordered_set<int> st;
 
         for(int i=0; i<3; i++){
 
             for(int j=0; j<3; j++){
 
-                if(mat[x+i][y+j] <= 0 || mat[x+i][y+j] > 9 || st.count(mat[x+i][y+j])){
-                    return false;
-                }
-                st.insert(mat[x+i][y+j]);
+             if(grid[x+i][y+j] <=0 || grid[x+i][y+j] > 9 || st.count(grid[x+i][y+j])){
+               okay = false;
+               break;
+              }
+             st.insert(grid[x+i][y+j]);
+           }
+        }
+    }
+
+    void isrowcoldagsum(int x , int y , vector<vector<int>>& grid , bool &okay){
+        int equal = grid[x][y] + grid[x][y+1] + grid[x][y+2];
+
+        for(int i=0; i<3; i++){
+
+            if(equal != grid[x+i][y] + grid[x+i][y+1] + grid[x+i][y+2]){
+                okay = false;
+                break;
+            }
+
+            if(equal != grid[x][y+i] + grid[x+1][y+i] + grid[x+2][y+i]){
+                okay = false;
+                break;
             }
         }
 
-        //row and col for grid 3*3
+        if(equal != grid[x][y] + grid[x+1][y+1] + grid[x+2][y+2]){
+            okay = false;
+        }
 
-        int equal = mat[x][y] + mat[x][y+1] + mat[x][y+2];
-
-          for(int i=0; i<3; i++){
-             
-             if(equal != mat[x+i][y] + mat[x+i][y+1] + mat[x+i][y+2]){
-                return false;
-             }
-
-             if(equal != mat[x][y+i] + mat[x+1][y+i] + mat[x+2][y+i]){
-                return false;
-             }
-         }
-
-         //daigonal
-
-         if(equal != mat[x][y] + mat[x+1][y+1] + mat[x+2][y+2]){
-            return false;
-         }
-
-         if(equal != mat[x][y+2] + mat[x+1][y+1] + mat[x+2][y]){
-            return false;
-         }
-
-         return true;
+        if(equal != grid[x][y+2] + grid[x+1][y+1] + grid[x+2][y]){
+            okay = false;
+        }
     }
 
     int numMagicSquaresInside(vector<vector<int>>& grid) {
+        
+        int count = 0;
+        int row = grid.size();
+        int col = grid[0].size();
 
-       rows = grid.size();
-       cols = grid[0].size();
+        if(row < 3 || col < 3) return 0;
 
-       int magic = 0;
+        for(int i=0; i<=row-3; i++){
+            for(int j=0; j<=col-3; j++){
 
-       for(int i=0; i<=rows-3; i++){
-          
-          for(int j=0; j<=cols-3; j++){
-             
-              if(isMagicalGrid(grid , i , j)){
-                magic++;
-              }
-          }
-       } 
-       return magic;
+                bool okay = true;
+
+                isDistinct(i , j , grid , okay);
+                isrowcoldagsum(i , j , grid , okay);
+                
+                if(okay){
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 };
