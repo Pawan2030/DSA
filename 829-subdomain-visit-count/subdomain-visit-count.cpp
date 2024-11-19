@@ -18,7 +18,7 @@ public:
 
                 int dotIdx = Domain.find('.');
 
-                if(dotIdx == string :: npos){
+                if(dotIdx == -1){
                     break;
                 }
             
