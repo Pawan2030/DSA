@@ -14,7 +14,7 @@ public:
                 }
             }
 
-            return present == true;
+            return present;
     }
 
     bool checkInclusion(string s1, string s2) {
