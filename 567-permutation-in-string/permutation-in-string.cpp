@@ -1,52 +1,56 @@
 class Solution {
 public:
+    
+    bool checked(vector<int>& s1count , vector<int>& s2count){
+            //check
+            bool present = false;
+            for(int i=0; i<26; i++){
+                if(s1count[i] != s2count[i]){
+                    present = false;
+                    break;
+                }
+                else{
+                    present = true;
+                }
+            }
 
-    bool compare(vector<int>& freq1 , vector<int>& freq2){
-
-        for(int i=0; i<26; i++){
-
-            if(freq1[i] != freq2[i]) return false;
-        }
-
-        return true;
+            return present == true;
     }
 
     bool checkInclusion(string s1, string s2) {
-        
+
         int n1 = s1.length();
         int n2 = s2.length();
 
         if(n1 > n2) return false;
 
-        vector<int> freq1(26,0);
-    
+        vector<int> s1count(26 , 0);
+
         for(char ch : s1){
-            freq1[ch-'a']++;
+            s1count[ch-'a']++;
         }
 
+        vector<int> s2count(26 , 0);
         int i = 0;
         int j = 0;
-        vector<int> freq2(26,0);
 
-        while(j < n2){
-            
-            freq2[s2[j] - 'a']++;
-
-            while(j-i+1 > n1){
-               freq2[s2[i] - 'a']--;
-               i++;
-            }
-
-            if(j-i+1 == n1){
-
-                bool res = compare(freq1 , freq2);
-
-                if(res) return true;
-            }
-
-            j++;
+        while(j < n1){
+           s2count[s2[j]-'a']++;
+           j++;
         }
 
-        return false;
+        bool check = checked(s1count , s2count);
+        if(check) return true;
+
+        while(j <  n2){
+            
+            s2count[s2[j]-'a']++;
+            s2count[s2[i]-'a']--;
+            bool present = checked(s1count , s2count);
+            if(present) return true;
+            i++;
+            j++;
+        }  
+        return false; 
     }
 };
