@@ -29,6 +29,7 @@ public:
 
             if(((i > 0 && sent[i-1] == ' ') || i == 0) && j-i == size){
                 idx = min(idx , space_Idx);
+                return idx;
             }
             
             k = 0;
