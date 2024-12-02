@@ -1,40 +1,19 @@
 class Solution {
 public:
-
-    int isPrefixOfWord(string sent, string word) {
+    int isPrefixOfWord(string s, string sw) {
         
-        int n = sent.length();
-        int size = word.length();
-        int idx = INT_MAX;
-        int space_Idx = 1;
+        istringstream stream(s);
+        string word;
+        int idx = 1;
 
-        int i =0; int j = 0; int k =0;
+       while(stream >> word){
+         
+         if(word.find(sw) == 0){
+            return idx;
+         }
 
-        while(j < n){
-
-            while(j < n && sent[j] != word[k]){
-                if(sent[j] == ' '){
-                    space_Idx++;
-                }
-
-                j++;
-            }
-            
-            i = j;
-
-            while(j < n && k < size && sent[j] == word[k]){
-                j++;
-                k++;
-            }
-
-            if(((i > 0 && sent[i-1] == ' ') || i == 0) && j-i == size){
-                idx = min(idx , space_Idx);
-                return idx;
-            }
-            
-            k = 0;
-        }
-
-        return idx == INT_MAX ? -1 : idx;
+         idx++;
+       }
+        return -1;
     }
 };
