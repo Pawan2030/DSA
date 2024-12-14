@@ -13,22 +13,15 @@ public:
 
             mp[nums[j]]++;
 
-            while(mp.rbegin()->first - mp.begin()->first < 0 || mp.rbegin()->first - mp.begin()->first > 2){
+            while(abs(mp.rbegin()->first - mp.begin()->first) > 2){
+
                 mp[nums[i]] -= 1;
                 if(mp[nums[i]] == 0){
                     mp.erase(nums[i]);
                 }
                 i++;
-               // cout<<j<<endl;
             }
-
-            int mini = mp.begin()->first;
-            int maxi = mp.rbegin()->first;
-
-            if(abs(maxi-mini) >= 0 && abs(maxi-mini) <= 2){
-                res += (j - i + 1);
-            }
-
+            res += (j - i + 1);
             j++;
         }
         return res;
