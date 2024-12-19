@@ -5,11 +5,6 @@ public:
         
         sort(arr.begin()+i , arr.begin()+j+1);
 
-        for(int k = i; k<=j; k++){
-            cout<<arr[k]<<endl;
-        }
-        cout<<"new"<<endl;
-
         for(int k = i; k <= j; k++){
             if(arr[k] != k) return false;
         }
