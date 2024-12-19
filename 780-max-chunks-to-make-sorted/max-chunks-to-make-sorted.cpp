@@ -1,30 +1,33 @@
 class Solution {
 public:
-    
-    bool sorted(int i , int j , vector<int>& arr){
-        
-        sort(arr.begin()+i , arr.begin()+j+1);
-
-        for(int k = i; k <= j; k++){
-            if(arr[k] != k) return false;
-        }
-        return true;
-    }
 
     int maxChunksToSorted(vector<int>& arr) {
 
        int n = arr.size();
-       int i = 0;
-       int j = 0;
-       int chunk = 0;
+       vector<int> mini(n);
+       vector<int> maxi(n); 
+       int val = -1;
 
-       while(i < n && j < n){  
-           if(sorted(i , j , arr)){
-              chunk++;
-              i = j+1;
-           }  
-           j++;
+       for(int i=0; i<n; i++){
+          val = max(arr[i] , val);
+          maxi[i] = val;
        }
+       
+       val = n;
+
+       for(int i=n-1; i>=0; i--){
+          val = min(val , arr[i]);
+          mini[i] = val; 
+       }
+
+       int chunk = 1;
+
+       for(int i=1; i<n; i++){
+          if(maxi[i-1] < mini[i]){
+            chunk++;
+          }
+       }
+
        return chunk;
     }
 };
