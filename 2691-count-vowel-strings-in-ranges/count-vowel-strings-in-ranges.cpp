@@ -20,16 +20,14 @@ public:
             char ch1 = words[i][0];
             char ch2 = words[i][size-1];
                 
-                if(i == 0 && (!isVowels(ch1) || !isVowels(ch2))){
-                    sum[i] = 0;
-                }
-                else if(i == 0 && isVowels(ch1) && isVowels(ch2)){
+              
+                if(i == 0 && isVowels(ch1) && isVowels(ch2)){
                    sum[i] += 1;
                 }
                 else if(i > 0 && isVowels(ch1) && isVowels(ch2)){
                     sum[i] = sum[i-1]+1;
                 }
-                else{
+                else if(i > 0){
                     sum[i] = sum[i-1];
                 }
         }
