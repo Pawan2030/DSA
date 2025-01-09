@@ -7,13 +7,8 @@ public:
 
         for(int i=0; i<words.size(); i++){
 
-            string word = words[i];
-            int cnt = 0;
-            for(int j=0; j<n; j++){
-                if(word[j] != pref[j]) break;
-                cnt++;
-            }
-            if(cnt == n) res++;
+            string word = words[i].substr(0 , n);
+            if(word == pref) res++;
         }
         return res;
     }
