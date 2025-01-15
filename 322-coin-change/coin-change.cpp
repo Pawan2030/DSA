@@ -11,7 +11,7 @@ public:
         }
 
         if(i >= n || amount < 0){
-            return 1e5;
+            return 1e9;
         }
 
         if(dp[i][amount] != -1){
@@ -33,6 +33,6 @@ public:
        n = coins.size();
        memset(dp , -1, sizeof(dp));
        int ans = solve(0 , coins , amount); 
-       return ans == 1e5 ? -1 : ans;
+       return ans == 1e9 ? -1 : ans;
     }
 };
