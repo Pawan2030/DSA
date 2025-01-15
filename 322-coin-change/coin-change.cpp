@@ -1,36 +1,38 @@
 class Solution {
 public:
+    
     int n;
-    int t[13][10001];
+    int dp[13][10001];
 
-    int solve(int i, vector<int>& coins, int sum){
+    int solve(int i, vector<int>& coins, int amount){
 
-        if(sum == 0){
-            return 0;
-        }
-
-        if(i >= n || sum < 0){
-            return 1e9;
-        }
-
-        if(t[i][sum] != -1){
-           return t[i][sum];
-        }
-
-        int take = 1 + solve(i, coins, sum-coins[i]);
-        int skip =     solve(i+1 , coins , sum);
-
-        return t[i][sum] = min(take,skip);
-    }
-
-    int coinChange(vector<int>& coins, int amount) {
-        
         if(amount == 0){
             return 0;
         }
-        n = coins.size();
-        memset(t, -1, sizeof(t));
-        int ans = solve(0, coins, amount);
-        return ans == 1e9 ? -1 : ans;
+
+        if(i >= n || amount < 0){
+            return 1e5;
+        }
+
+        if(dp[i][amount] != -1){
+            return dp[i][amount];
+        }
+        
+        int take = 1e5;
+        if(amount >= coins[i]){
+           take = 1+solve(i, coins, amount-coins[i]);
+        }
+           
+        int skip = solve(i+1, coins, amount);
+
+        return dp[i][amount] = min(take , skip);
+    }
+
+    int coinChange(vector<int>& coins, int amount) {
+
+       n = coins.size();
+       memset(dp , -1, sizeof(dp));
+       int ans = solve(0 , coins , amount); 
+       return ans == 1e5 ? -1 : ans;
     }
 };
