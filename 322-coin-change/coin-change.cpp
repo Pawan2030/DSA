@@ -18,10 +18,10 @@ public:
             return dp[i][amount];
         }
         
-        int take = 1e5;
-        if(amount >= coins[i]){
-           take = 1+solve(i, coins, amount-coins[i]);
-        }
+        //int take = 1e5;
+        //if(amount >= coins[i]){
+           int take = 1+solve(i, coins, amount-coins[i]);
+        
            
         int skip = solve(i+1, coins, amount);
 
