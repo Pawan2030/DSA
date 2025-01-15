@@ -1,37 +1,35 @@
 class Solution {
 public:
-    
-    int m , n;
-    
-    int dp[201][201];
-
-    int solve(int i, int j, vector<vector<int>>& grid){
-
-        if(i == m-1 && j == n-1){
-            return grid[i][j];
-        }
-
-        if(dp[i][j] != -1){
-            return dp[i][j];
-        }
-
-        if(i == m-1){ // last row so only can go RIGHT--->>
-            return dp[i][j] = grid[i][j] + solve(i,j+1,grid);
-        } 
-        else if(j == n-1){ // last col so only can go DOWN--->>
-            return dp[i][j] = grid[i][j] + solve(i+1,j,grid);
-        } 
-        else{
-            return dp[i][j] = grid[i][j] + min(solve(i+1,j,grid) , solve(i,j+1,grid));
-        }
-    }
 
     int minPathSum(vector<vector<int>>& grid) {
-       
-       m = grid.size();  // row
-       n = grid[0].size();  //col
-       memset(dp,-1,sizeof(dp));
-       return solve(0 , 0 , grid);
+        
+        //top down approach
+        int m = grid.size();
+        int n = grid[0].size();
 
+        vector<vector<int>> res(m , vector<int>(n));
+
+        //lets fill first row
+        int sum = 0;
+        for(int col = 0; col<n; col++){
+            sum += grid[0][col];
+            res[0][col] = sum;
+        }
+        
+        sum = 0;
+        //lets fill first col
+        for(int row = 0; row<m; row++){
+            sum += grid[row][0];
+            res[row][0] = sum; 
+        }
+
+        for(int i=1; i<m; i++){
+            for(int j=1; j<n; j++){
+                res[i][j] = grid[i][j] + min(res[i-1][j] , res[i][j-1]);
+                cout<< res[i][j]<<endl;
+            }
+        }
+
+        return res[m-1][n-1];
     }
 };
