@@ -1,75 +1,43 @@
 class Solution {
 public:
+    
+    int n;
+    int dp[201][10001];
 
-    bool solve(vector<int> &nums , int n , int tar){
-         
-        bool arr[n+1][tar+1];
+    bool solve(int i, int tar, vector<int>& nums){
 
-        //where n = 0
-        for(int i=0; i<=tar; i++){
-            arr[0][i] = false;
+        if(tar == 0){
+            return true;
         }
 
-        //where sum = 0
-        for(int i=0; i<=n; i++){
-            arr[i][0] = true;
+        if(i >= n || tar < 0) return false;
+
+        if(dp[i][tar] != -1){
+            return dp[i][tar];
         }
 
-        for(int i=1; i<=n; i++){
-            for(int j=1; j<=tar; j++){
+        bool take = solve(i+1, tar-nums[i], nums);
+        if(take) return dp[i][tar] = true;
 
-                if(nums[i-1] <= j){
+        bool skip = solve(i+1, tar, nums);
 
-                    arr[i][j] = arr[i-1][j] || arr[i-1][j-nums[i-1]];
-                }
-                else{
-                    arr[i][j] = arr[i-1][j];
-                }
+        return dp[i][tar] = take || skip;
 
-            }
-        }
-
-       return arr[n][tar];
     }
 
-    
-    // bool solve(int i , vector<int>& nums , int tar , int sum , int n){
-
-    //     if(sum == tar){
-    //         return true;
-    //     }
-
-    //     if(i >= n) return false;
-
-    //     if(sum + nums[i] <= tar){
-
-    //         bool res = solve(i+1 , nums , tar , sum+nums[i] , n);
-    //         bool ress = solve(i+1 , nums , tar , sum , n);
-
-    //         if(res || ress) return true;
-    //     }
-    //     else{
-    //         bool resss = solve(i+1 , nums , tar , sum , n);
-
-    //         if(resss) return true;
-    //     }
-
-    //     return false;
-    // }
-
     bool canPartition(vector<int>& nums) {
+        
+        n = nums.size();
+        int sum = 0;
+        memset(dp , -1, sizeof(dp));
 
-        int tar = 0;
-        int n = nums.size();
-        tar = accumulate(begin(nums) , end(nums) , 0);
-
-        if(tar%2 == 1 || n == 1){
-            return false;
+        for(int num : nums){
+            sum += num;
         }
 
-        tar /= 2;
+        if(sum%2 != 0) return false;
 
-       
-        return solve( nums , n ,  tar);  
+        return solve(0, sum/2, nums);
+        
     }
 };
