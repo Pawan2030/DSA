@@ -1,40 +1,70 @@
 class Solution {
 public:
-    // Performs DFS and returns true if there's a path between src and target
-    // and false otherwise.
-    bool isPrerequisite(unordered_map<int, vector<int>>& adjList,
-                        vector<bool>& visited, int src, int target) {
-        visited[src] = 1;
+    vector<bool> checkIfPrerequisite(int numCourses, vector<vector<int>>& prerequisites, vector<vector<int>>& queries) {
 
-        if (src == target) {
-            return true;
-        }
+       //prapare the adj list
+       unordered_map<int,vector<int>> adj;
+       vector<int> indegree(numCourses,0);
 
-        int answer = false;
-        for (auto adj : adjList[src]) {
-            if (!visited[adj]) {
-                answer =
-                    answer || isPrerequisite(adjList, visited, adj, target);
-            }
-        }
-        return answer;
-    }
+       for(int i=0; i < prerequisites.size();i++){
+           
+           int u = prerequisites[i][0];
+           int v = prerequisites[i][1];
+           //u------->v
+           adj[u].push_back(v);
+           indegree[v]++;
+       } 
 
-    vector<bool> checkIfPrerequisite(int numCourses,
-                                     vector<vector<int>>& prerequisites,
-                                     vector<vector<int>>& queries) {
-        unordered_map<int, vector<int>> adjList;
-        for (auto edge : prerequisites) {
-            adjList[edge[0]].push_back(edge[1]);
-        }
+       queue<int> q;
 
-        vector<bool> answer;
-        for (auto q : queries) {
-            // Reset the visited array for each query.
-            vector<bool> visited(numCourses, false);
-            answer.push_back(isPrerequisite(adjList, visited, q[0], q[1]));
-        }
+       for(int i=0; i<numCourses; i++){
+           
+           if(indegree[i] == 0){
+            q.push(i);
+         }
+       }
 
-        return answer;
+       unordered_map<int,unordered_set<int>> mp;
+
+       while(!q.empty()){
+          
+          int top = q.front();
+          q.pop();
+
+          for(auto &ngr : adj[top]){
+              mp[ngr].insert(top);
+
+              for(auto& preq : mp[top]){
+                 mp[ngr].insert(preq);
+              }
+
+              indegree[ngr]--;
+
+              if(indegree[ngr] == 0){
+                  q.push(ngr);
+              }
+              
+          }
+
+       }
+
+       int Q = queries.size();
+       vector<bool> res(Q,false);
+
+       for(int i=0; i<Q; i++){
+          
+          int src = queries[i][0];
+          int dit = queries[i][1];
+          
+          bool isPresent = false;
+
+          if(mp[dit].find(src) != mp[dit].end()){
+             isPresent = true;
+          }
+
+          res[i] = isPresent;
+       }
+       
+       return res;
     }
 };
