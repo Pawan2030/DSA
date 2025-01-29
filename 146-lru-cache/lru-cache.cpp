@@ -1,52 +1,55 @@
 class LRUCache {
 public:
     
-    list<int> dll;
-    unordered_map<int,pair<list<int>:: iterator , int >> mp ; //key -> Add,Val
     int n;
+    list<int> dll;
+    unordered_map<int,pair<list<int> :: iterator , int >> mp;  // key -> ADD , Val
 
     LRUCache(int capacity) {
-       n =  capacity;
+       n = capacity;
     }
     
     int get(int key) {
         
-        //exit
+        //present so return val of that input key
         if(mp.find(key) != mp.end()){
-           
-           auto add = mp[key].first;
-           dll.erase(add);
-           dll.push_front(key);
-           mp[key].first = dll.begin();
-           return mp[key].second; //value corrospoding the key i am returning
+
+            auto it = mp[key].first;
+            int val = mp[key].second;
+            dll.erase(it);
+            dll.push_front(key);
+            mp[key] = {dll.begin() , val};
+            return mp[key].second;
         }
 
-        //not exit
+        //not present
         return -1;
     }
     
     void put(int key, int value) {
-        
-        //alredy exit
+
+        //alredy presnt with this key - val so make it most freq used and update in map
         if(mp.find(key) != mp.end()){
 
-            auto add = mp[key].first;
-            dll.erase(add);
+            auto it = mp[key].first;
+            dll.erase(it);
             dll.push_front(key);
             mp[key] = {dll.begin() , value};
         }
-        else if(n >= 0){
-            dll.push_front(key);
-            mp[key] = {dll.begin() , value};
-            n--;
-        }
-
-        if(n < 0){
-            int LRU = dll.back();
+        else if(mp.size() == n){ // remove least and add new
+            
+            auto it = dll.back();
             dll.pop_back();
-            mp.erase(LRU);
-            n++;
+            mp.erase(it);
+
+            dll.push_front(key);
+            mp[key] = {dll.begin() , value};
         }
+        else{
+            dll.push_front(key);
+            mp[key] = {dll.begin() , value};
+        }
+        
     }
 };
 
