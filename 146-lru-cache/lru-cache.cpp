@@ -33,23 +33,15 @@ public:
 
             auto it = mp[key].first;
             dll.erase(it);
-            dll.push_front(key);
-            mp[key] = {dll.begin() , value};
+            
         }
         else if(mp.size() == n){ // remove least and add new
-            
             auto it = dll.back();
             dll.pop_back();
             mp.erase(it);
-
-            dll.push_front(key);
-            mp[key] = {dll.begin() , value};
         }
-        else{
             dll.push_front(key);
-            mp[key] = {dll.begin() , value};
-        }
-        
+            mp[key] = {dll.begin() , value}; 
     }
 };
 
