@@ -1,41 +1,65 @@
-class Solution {
+
+class DSU {
 public:
+   
+   vector<int> parent;
+   vector<int> rank;
 
-   bool dfs( unordered_map<int,vector<int>>& mp , int u, int v, vector<bool>& visited){
-       
-       visited[u] = true;
+   DSU(int n){
+      parent.resize(n+1);
+      rank.resize(n+1);
+      for(int i=1; i<=n; i++){
+       parent[i] = i;
+       rank[i] = 0;
+     }
+   };
 
-       if(u == v) return true;
+   int find(int x){
 
-       for(int ngr : mp[u]){
+      if(parent[x] == x){
+         return x;
+      } 
 
-           if(visited[ngr] == true) continue;
-           
-           if(dfs(mp,ngr,v,visited)){
-             return true;
-           }
-       }
-       
-       return false;
+      return parent[x] = find(parent[x]);
    }
 
+   void Union(int x , int y){
+      
+       int px = find(x);
+       int py = find(y);
+
+       if(px == py) return;
+
+       if(rank[px] > rank[py]){
+          parent[py] = px;
+       }
+       else if(rank[py] > rank[px]){
+         parent[px] = py;
+       }
+       else{
+            parent[px] = py;
+            rank[py]++;
+       }
+
+   }
+
+};
+
+class Solution {
+public:
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
         
-        unordered_map<int,vector<int>> mp;
         int n = edges.size();
+        DSU dsu(n);
 
         for(int i=0; i<n; i++){
 
             int u = edges[i][0];
             int v = edges[i][1];
-            
-            vector<bool> visited(n,false);
-            if(mp.find(u) != mp.end() && mp.find(v) != mp.end() && dfs(mp , u , v, visited)){
-                return edges[i];
-            }
 
-            mp[u].push_back(v);
-            mp[v].push_back(u);
+            if(dsu.find(u) == dsu.find(v)) return edges[i];
+            dsu.Union(u,v);
+
         }
         return {};
     }
