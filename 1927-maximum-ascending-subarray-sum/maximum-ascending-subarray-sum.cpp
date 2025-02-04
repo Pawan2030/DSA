@@ -1,32 +1,29 @@
 class Solution {
 public:
-     
-     int n;
-     
-    void solve(int i, int prev, int &res , int sum , vector<int> &nums){
-        
-        if(i >= n){
+    int n;
+
+    void solve(int i, int prev, int &res, int sum, vector<int> &nums) {
+        if (i >= n) {
+         // Fix: Ensure result updates when reaching the end
             return;
         }
-
-       
-        if(prev == -1 || nums[prev] < nums[i]){
+         
+          
+        // Continue the ascending subarray
+        if (prev == -1 || nums[prev] < nums[i]) {
             sum += nums[i];
-            res = max(res , sum);
-            solve(i+1,i,res,sum,nums);
+            res = max(res, sum);
+            solve(i + 1, i, res, sum, nums);
         }
-        else{
-            solve(i+1,i,res,nums[i],nums);
-        }
-
-     }
+        else
+        // Start a new subarray from the current index
+        solve(i + 1, i, res, nums[i], nums);
+    }
 
     int maxAscendingSum(vector<int>& nums) {
-        
         n = nums.size();
-        int res = INT_MIN;
-        int sum = 0;
-        solve(0 , -1 , res , sum , nums);
+        int res = 0; // Fix: Start from 0 instead of INT_MIN
+        solve(0, -1, res, 0, nums);
         return res;
     }
 };
