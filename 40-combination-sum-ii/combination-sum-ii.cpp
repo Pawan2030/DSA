@@ -6,12 +6,12 @@ public:
 
     void solve(int idx , vector<int>& can, int tar, vector<int>& temp){
         
-        if(tar < 0){
+         if(tar == 0){
+            res.push_back(temp);
             return;
         }
-
-        if(tar == 0){
-            res.push_back(temp);
+        
+        if(tar < 0){
             return;
         }
 
