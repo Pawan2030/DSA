@@ -2,18 +2,19 @@ class Solution {
 public:
      
     vector<vector<int>> res;
-    set<vector<int>> st;
     int n;
 
     void solve(vector<int>& nums, vector<int>& temp, unordered_map<int,int>& mp){
 
-        if(temp.size() == n && st.find(temp) == st.end()){
+        if(temp.size() == n){
             res.push_back(temp);
-            st.insert(temp);
             return;
         }
 
         for(int i=0; i<n; i++){
+
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+
             if(mp[nums[i]] > 0){
                 mp[nums[i]]--;
                 temp.push_back(nums[i]);
@@ -28,6 +29,7 @@ public:
     vector<vector<int>> permuteUnique(vector<int>& nums) {
         
         n = nums.size();
+        sort(begin(nums) , end(nums));
         vector<int> temp;
         unordered_map<int,int> mp;
 
