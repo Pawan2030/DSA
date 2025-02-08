@@ -1,26 +1,21 @@
 class Solution {
 public:
     
-    int n;
     vector<vector<int>> res;
+    int n;
 
-    void solve(int idx , vector<int>& can, int tar, vector<int>& temp){
+    void solve(int idx, vector<int>& can, vector<int> &temp, int target){
         
-         if(tar == 0){
+        if(target == 0){
             res.push_back(temp);
             return;
         }
-        
-        if(tar < 0){
-            return;
-        }
-
+        if(target < 0 || idx >= n) return;
         for(int i=idx; i<n; i++){
-            
-            if(i > idx && can[i] == can[i-1]) continue;
 
+            if(i > idx && can[i] == can[i-1]) continue;
             temp.push_back(can[i]);
-            solve(i+1,can,tar-can[i],temp);
+            solve(i+1,can,temp,target-can[i]);
             temp.pop_back();
         }
 
@@ -28,10 +23,10 @@ public:
 
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         
+        sort(begin(candidates),end(candidates));
         n = candidates.size();
-        sort(begin(candidates) , end(candidates));
         vector<int> temp;
-        solve(0,candidates,target,temp);
+        solve(0,candidates,temp,target);
         return res;
     }
 };
