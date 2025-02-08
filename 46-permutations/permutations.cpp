@@ -4,13 +4,13 @@ public:
     int n;
     vector<vector<int>> res;
 
-    void solve(vector<int>& temp , vector<int>& nums, unordered_set<int>& st){
+    void solve(vector<int>& temp , vector<int>& nums, unordered_set<int> st){
 
         if(temp.size() == n){
             res.push_back(temp);
             return;
         }
-        
+
         for(int i=0; i<n; i++){
             if(st.find(nums[i]) == st.end()){
                 temp.push_back(nums[i]);
