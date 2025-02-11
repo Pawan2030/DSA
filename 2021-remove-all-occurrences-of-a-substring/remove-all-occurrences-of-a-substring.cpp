@@ -1,44 +1,33 @@
 class Solution {
 public:
     
-    void checkAndRemove(string &part , stack<char> &st){
+    void checkAndRemove(string &part ,  string &st){
 
-        int n = part.length();
-        int j = n;
-        string temp = "";
+        int j = part.length();
+        int n = st.length();
+        string temp = st.substr(n-j,j);
 
-        while(j--){
-           temp += st.top();
-           st.pop();
-        }
-        reverse(begin(temp),end(temp));
-
-        if(temp != part){  
-            for(char &ch : temp){
-                st.push(ch);
+        if(temp == part){  
+            while(j--){
+                st.pop_back();
             }
         }
     }
 
     string removeOccurrences(string s, string part) {
         
-        stack<char> st;
+        string st = "";
         int p = part.length();
 
         for(char &ch : s){
             
-            st.push(ch);
-            if(st.size() >= p){
+            st.push_back(ch);
+
+            if(st.length() >= p){
                 checkAndRemove(part , st);
             }
         }
-        
-        string res = "";
-        while(!st.empty()){
-            res += st.top();
-            st.pop();
-        }
-        reverse(begin(res) , end(res));
-        return res;
+
+        return st;
     }
 };
