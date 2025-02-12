@@ -16,7 +16,7 @@ public:
 
     int maximumSum(vector<int>& nums) {
         
-        unordered_map<int,vector<int>> mp;
+        unordered_map<int,int> mp;
         int res = -1;
         int n = nums.size();
 
@@ -32,13 +32,12 @@ public:
             int sum = pre[i];
 
             if(mp.find(sum) != mp.end()){
-
-                for(int &val : mp[sum]){
-                    res = max(res , nums[i]+val);
-                }
+                int val = mp[sum];
+                res = max(res , nums[i]+val);
+                mp[sum] = max(val , nums[i]);;
+            }else{
+                mp[sum] = nums[i];
             }
-            
-            mp[sum].push_back(nums[i]);
         }
 
         return res;
