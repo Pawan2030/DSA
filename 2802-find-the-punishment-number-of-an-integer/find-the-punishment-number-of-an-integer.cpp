@@ -1,40 +1,43 @@
 class Solution {
 public:
+    
+    bool check_Sum_Equal_To_i(int idx , int sum , int equalSum , string &st){
 
-   bool check(int s , string st , int val , int sum){
-       
-       if(s == st.length()){
-          return sum == val;
-       }
+        if(idx == st.length()){
+            return sum == equalSum;
+        }
 
-       if(sum > val) return false;
-       
-       bool ans = false;
+        if(sum > equalSum) return false;
 
-       for(int len = 1; s+len<=st.length(); len++){
-            string sub = st.substr(s , len);
-            int v = stoi(sub);
-            ans = ans || check(s+len, st , val , sum+v);
-            if(ans) return true;
-       }
+       // bool possible = false;
 
-       return false;
-   }
+        for(int len = 1; len+idx <= st.length(); len++){
+            
+            string sub = st.substr(idx , len);
+            int val =  stoi(sub);
+            bool possible = check_Sum_Equal_To_i(idx+len , sum + val, equalSum , st);
+            if(possible) return true;
+        }
+ 
+        return false;
+    }
+
+
 
     int punishmentNumber(int n) {
         
-        int res = 0;
+        int toalSum = 0;
 
         for(int i=1; i<=n; i++){
 
-            int num = i*i;
-            string st = to_string(num);
+            int sq = i*i;
+            string st = to_string(sq);
 
-            if(check(0 ,st , i , 0)){
-                res += num;
+            if(check_Sum_Equal_To_i(0 , 0 , i , st)){
+                toalSum += sq;
             }
         }
 
-        return res;
+        return toalSum;
     }
 };
