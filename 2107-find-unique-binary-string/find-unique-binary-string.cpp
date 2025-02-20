@@ -13,6 +13,7 @@ public:
 
         for(char ch = '0'; ch <='1'; ch++){
             temp += ch;
+            if(res != "") break;
             solve(p-1,temp, res, st);
             temp.pop_back();
         }
