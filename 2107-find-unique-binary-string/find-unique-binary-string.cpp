@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    void solve(int p, string temp , string &res ,  unordered_set<string> &st){
+    void solve(int p, string &temp , string &res ,  unordered_set<string> &st){
 
         if(p==0){
             if(st.find(temp) == st.end()){
@@ -30,8 +30,9 @@ public:
         }
 
         string res = "";
+        string temp = "";
 
-        solve(p , "" , res , st);
+        solve(p , temp , res , st);
         return res;
     }
 };
