@@ -16,18 +16,20 @@ public:
 
    void BuildTree(TreeNode* root , int x){
        
+       st.insert(x);
+       
        if(!root->left && !root->right) return;
 
        if(root->left && !root->right){
            int valLeft         = 2*x + 1;
            root->left->val = valLeft;
-           st.insert(valLeft);
+        
            BuildTree(root->left , valLeft);
        }
        else if(!root->left && root->right){
            int valRight         = 2*x + 2;
            root->right->val = valRight;
-           st.insert(valRight);
+          
            BuildTree(root->right , valRight);
        }
        else{
@@ -36,8 +38,7 @@ public:
 
            root->left->val  = valLeft;
            root->right->val = valRight;
-           st.insert(valLeft);
-           st.insert(valRight);
+          
            BuildTree(root->left , valLeft);
            BuildTree(root->right , valRight);
        }
@@ -48,7 +49,7 @@ public:
         
         int x = 0;
         root->val = x; 
-        st.insert(x);
+
         BuildTree(root , 0);
     }
     
