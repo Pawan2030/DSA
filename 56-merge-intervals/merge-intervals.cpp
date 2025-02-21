@@ -16,7 +16,7 @@ public:
 
             if(maxi >= minEle){
                 mini =  min(mini , minEle);
-                maxi = max(maxi , maxEle);
+                maxi =  max(maxi , maxEle);
             }
             else{
                 res.push_back({mini , maxi});
