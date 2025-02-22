@@ -1,47 +1,46 @@
 class Solution {
 public:
     
-    int m;
-    int n;
+    int m , n;
 
-    vector<vector<int>> dir = {
-        {0,1},{1,0},{0,-1},{-1,0}
+    vector<vector<int>> directions{
+        {0 ,1} , {0,-1} , {1 , 0} , {-1 , 0}
     };
 
-    void dfs(int x , int y , vector<vector<char>>& grid , vector<vector<bool>>& visited){
-         
-         visited[x][y] = true;
+    void coverIsaland(int i, int j, vector<vector<char>>& grid){
+        
+        //if((s < 0 || s >= m || e < 0 || e >= n || visited[s][e])) return;
 
-         for(auto it : dir){
-             
-             int i = x + it[0];
-             int j = y + it[1];
+        grid[i][j] = '0';
 
-             if(i>=0 && i<m && j>=0 && j<n && visited[i][j] == false && grid[i][j] == '1'){
-                dfs(i , j , grid , visited);
-             }
-         }
+        for(vector<int>& dir : directions){
+
+            int x = i + dir[0];
+            int y = j + dir[1];
+            
+            if(x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == '1'){
+                coverIsaland(x , y , grid);
+            }
+        }
+
     }
 
+
     int numIslands(vector<vector<char>>& grid) {
-       
-       m = grid.size();
-       n = grid[0].size();
-       int island = 0;
+        
+         m = grid.size();
+         n = grid[0].size();
 
-       vector<vector<bool>> visited(m , vector<bool>(n , false));
+        int num = 0;
 
-       for(int i=0; i<m; i++){
-          
-          for(int j=0; j<n; j++){
-              
-              if(grid[i][j] == '1' && visited[i][j] == false){
-                 island++;
-                 //cout<<"hi"<<endl;
-                 dfs(i , j , grid , visited);
-              }
-          }
-       }
-       return island;
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if(grid[i][j] == '1'){
+                   num++;
+                   coverIsaland(i,j,grid);
+                }
+            }
+        }
+        return num;
     }
 };
