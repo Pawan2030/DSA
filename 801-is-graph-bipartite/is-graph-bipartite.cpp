@@ -23,13 +23,12 @@ bool checkCycleCount(int u, int p , int val , vector<int>& cnt ,  vector<bool> &
                }
 
             }
-            else{
+            else if(!visited[v]){
                bool get = checkCycleCount(v , u , val+1, cnt, visited, graph);
-
                if(!get) return false;
             }
         }
-        
+
         return true;
     }
 
