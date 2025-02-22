@@ -3,6 +3,8 @@ public:
     
     bool checkCycleCount(int u, int p, int val, vector<int>& cnt, vector<bool> &visited, vector<vector<int>>& graph) {
         visited[u] = true;
+        cout<<"u->"<<u<<endl;
+         cout<<"val->"<<val<<endl;
         cnt[u] = val;  // Store level of node
 
         for (int v : graph[u]) {
@@ -10,6 +12,8 @@ public:
 
             if (visited[v]) {
                 // If we visit an already visited node, check for odd cycle
+                cout<<"Insideval->"<<val<<endl;
+                 cout<<"Char->"<<v<<endl;
                 if (((val+1) - cnt[v]) % 2 != 0) { 
                     return false; // Odd-length cycle found, not bipartite
                 }
@@ -30,7 +34,7 @@ public:
 
         for (int i = 0; i < n; i++) {
             if (!visited[i]) {
-                bool ans = checkCycleCount(i, -1, 0, cnt, visited, graph);
+                bool ans = checkCycleCount(i, -1, 1, cnt, visited, graph);
                 if (!ans) return false;
             }
         }
