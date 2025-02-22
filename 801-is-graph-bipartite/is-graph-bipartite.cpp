@@ -1,53 +1,57 @@
-
 class Solution {
 public:
+   
+    bool bfs(int u , vector<bool>& visited, vector<vector<int>>& graph){
+        
+        int n = graph.size();
+        vector<int> cnt(n);
+        queue<pair<int,pair<int,int>>> q; // {node, {parent, level}}
 
-bool checkCycleCount(int u, int p , int val , vector<int>& cnt ,  vector<bool> &visited , vector<vector<int>>& graph){
-
+        q.push({u,{-1 , 0}});
         visited[u] = true;
-        cnt[u] = val;
+        cnt[u] = 0;  // Fix: Assign cnt[u] instead of cnt[0]
+       
+        while(!q.empty()){
 
-        for(int v : graph[u]){
+            int v = q.front().first;
+            int p = q.front().second.first;
+            int till = q.front().second.second;
+            q.pop();
 
-            if(v == p) continue;
+            for(int &ngr : graph[v]){
 
-            if(visited[v]){
+                if(ngr == p) continue;
 
-               int p1 =  cnt[v];
-               int p2 =  val;
+                if(visited[ngr]){
 
-               int data = p2-p1+1;
-
-               if(data%2 != 0){
-                   return false;
-               }
-
-            }
-            else if(!visited[v]){
-               bool get = checkCycleCount(v , u , val+1, cnt, visited, graph);
-               if(!get) return false;
+                    if((cnt[v] - cnt[ngr]+1) % 2 != 0){  // Fix: Use cnt[v] instead of `till`
+                       return false;
+                    }
+                }
+                
+                if(!visited[ngr]){
+                    visited[ngr] = true;
+                    cnt[ngr] = cnt[v] + 1;  // Fix: Use cnt[v] instead of `till`
+                    q.push({ngr , {v , cnt[ngr]}});
+                }
             }
         }
-
-        return true;
+        
+        return true;  // Fix: Return true when BFS completes successfully
     }
 
     bool isBipartite(vector<vector<int>>& graph) {
         
         int n = graph.size();
-        vector<int> cnt(n,-1);
-        vector<bool> visited(n , false);
-        int cycle = 0;
-
-
+        vector<bool> visited(n,false);
+        
         for(int i=0; i<n; i++){
-
             if(!visited[i]){
-                bool ans = checkCycleCount(i , -1 , 1 , cnt , visited , graph);
+                bool ans = bfs(i , visited , graph);
                 if(!ans) return false;
             }
         }
-        
+    
         return true;
     }
 };
