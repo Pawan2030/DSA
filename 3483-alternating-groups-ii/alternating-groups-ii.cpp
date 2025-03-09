@@ -1,48 +1,37 @@
 class Solution {
 public:
-    int numberOfAlternatingGroups(vector<int>& colors, int k) {
-        int length = colors.size();
-        int result = 0;
-        // Tracks the length of the current alternating sequence
-        int alternatingElementsCount = 1;
-        int lastColor = colors[0];
 
-        for (int index = 1; index < length; index++) {
-            // Check if the current color is the same as the last one
-            if (colors[index] == lastColor) {
-                // Pattern breaks, reset sequence length
-                alternatingElementsCount = 1;
-                lastColor = colors[index];
+    int numberOfAlternatingGroups(vector<int>& colors, int k) {
+        
+        
+        for(int i=0; i<k-1; i++){
+            colors.push_back(colors[i]);
+        }
+
+        int n = colors.size();
+        int i = 0;
+        int j = 1;
+
+        int res = 0;
+
+        while(j < n){
+
+            if(colors[j-1] == colors[j]){
+                i = j;
+                j++;
                 continue;
             }
 
-            // Sequence can be extended
-            alternatingElementsCount++;
 
-            // Record a new alternating sequence
-            if (alternatingElementsCount >= k) {
-                result++;
+            if(j-i+1 == k){
+                res++;
+                i++;
             }
 
-            lastColor = colors[index];
+             j++;
+
         }
 
-        // Wrap around to the first k - 1 elements
-        for (int index = 0; index < k - 1; index++) {
-            // Pattern breaks. Since there are less than k elements remaining,
-            // no more sequences can be formed
-            if (colors[index] == lastColor) break;
-
-            // Extend the pattern
-            alternatingElementsCount++;
-
-            // Record a new alternating sequence
-            if (alternatingElementsCount >= k) {
-                result++;
-            }
-
-            lastColor = colors[index];
-        }
-        return result;
+        return res;
     }
 };
