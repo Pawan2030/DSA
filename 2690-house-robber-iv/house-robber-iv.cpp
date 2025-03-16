@@ -1,29 +1,47 @@
 class Solution {
 public:
-    int minCapability(vector<int>& nums, int k) {
-        // Store the maximum nums value in maxReward.
-        int minReward = 1, maxReward = *max_element(nums.begin(), nums.end()),
-            totalHouses = nums.size();
 
-        // Use binary search to find the minimum reward possible.
-        while (minReward < maxReward) {
-            int midReward = (minReward + maxReward) / 2;
-            int possibleThefts = 0;
+    bool isPossible(int mid ,vector<int>& nums, int k){
 
-            for (int index = 0; index < totalHouses; ++index) {
-                if (nums[index] <= midReward) {
-                    possibleThefts += 1;
-                    index++;  // Skip the next house to maintain the
-                              // non-adjacent condition
-                }
+        for(int i=0; i<nums.size(); i++){
+
+            if(nums[i] <= mid){
+               k--;
+               i++;
             }
 
-            if (possibleThefts >= k)
-                maxReward = midReward;
-            else
-                minReward = midReward + 1;
+            if(k == 0) return true;
+        }
+        
+        return false;
+    }
+
+    int minCapability(vector<int>& nums, int k) {
+        
+        int n = nums.size();
+        int s = INT_MAX;
+        int e = INT_MIN;
+
+        for(int num : nums){
+            s = min(s , num);
+            e = max(e , num);
+        }
+        
+        int res = 0;
+
+        while(s <= e){
+            
+            int mid = s + (e-s)/2;
+
+            if(isPossible(mid , nums , k)){
+                res = mid;
+                e = mid-1;
+            }
+            else{
+                s = mid+1;
+            }
         }
 
-        return minReward;
+        return res;
     }
 };
