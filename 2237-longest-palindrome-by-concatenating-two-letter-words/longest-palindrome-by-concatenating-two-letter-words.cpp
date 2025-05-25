@@ -11,13 +11,18 @@ public:
             string rw = word;
             swap(rw[0] , rw[1]);
 
-            if(mp[rw] <= 0){
+            if(mp.find(rw) == mp.end()){
                 mp[word]++;
             }
             else{
                 res += 4;
                 mp[rw]--;
+
+                if(mp[rw] == 0){
+                    mp.erase(rw);
                 }
+                  
+            }
         }
 
         for(auto it : mp){
