@@ -1,54 +1,45 @@
-class comp {
-    public:
-
-    bool operator () ( pair<char , int>  a , pair<char , int>  b){
-           
-           if(a.first == b.first){
-              return a.second < b.second;
-           }
-            return a.first > b.first;
-        }
-};
-
-
-
 class Solution {
 public:
-    
-    typedef pair<char , int> p;
 
+   struct comp{
+
+    bool operator() (pair<char,int> &p1 , pair<char,int> &p2){
+
+        if(p1.first == p2.first){
+            return p1.second < p2.second;
+        }
+        return p1.first > p2.first;
+    }
+
+   };
 
     string clearStars(string s) {
-  
-        priority_queue<p , vector<p>, comp> pq;
+        
+        int n = s.size();
+        priority_queue<pair<char,int> , vector<pair<char,int>>, comp> pq; //min heap with custom function
 
-        for(int i=0; i<s.size(); i++){
+        for(int i=0; i<n; i++){
              
-             if(pq.empty()){
-                pq.push({s[i] , i});
-             }
-             else if(s[i] == '*'){
-                 
-                 auto front = pq.top();
+             if(s[i] == '*'){
+                 auto it = pq.top();
                  pq.pop();
 
-                 int idx = front.second;
-                 s[idx] = '$';
+                 int idx = it.second;
+                 s[idx] = '*';
              }
              else{
                 pq.push({s[i] , i});
              }
         }
 
-        string temp = "";
+        string st = "";
 
-        for(auto ch : s){
-
-            if(ch != '$' and ch != '*'){
-                temp += ch;
+        for(char ch : s){
+            if(ch != '*'){
+                st += ch;
             }
         }
 
-        return temp;
+        return st;
     }
 };
