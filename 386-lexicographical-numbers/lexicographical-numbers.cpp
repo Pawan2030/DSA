@@ -1,31 +1,29 @@
 class Solution {
 public:
     
-    void solve(int s , int n ,  vector<int>& res){
-        
-        //base case
+    void solve(int s, int n, vector<int> &res){
+
         if(s > n) return;
+
         res.push_back(s);
 
-        for(int app = 0; app<=9; app++){
+        for(int i=0; i<=9; i++){
 
-            int num = s*10+app;
+            int val = s*10 + i;
 
-            if(num > n) return;
-
-            solve(num , n , res);
+            solve(val, n, res);
         }
 
     }
 
+
     vector<int> lexicalOrder(int n) {
         
-         vector<int> res;
+        vector<int> res;
 
-         for(int start = 1; start<=9; start++){
-             solve(start , n , res);
-         }
-
-         return res;
+        for(int i=1; i<=min(n , 9); i++){
+            solve(i, n, res);
+        }
+        return res;
     }
 };
