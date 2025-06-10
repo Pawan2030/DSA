@@ -1,36 +1,43 @@
 class Solution {
 public:
     string mostCommonWord(string s, vector<string>& banned) {
-        unordered_map<string, int> mp;
-        unordered_set<string> bannedSet(banned.begin(), banned.end());
+        
+        unordered_map<string , int> mp;
+        unordered_set<string> Ban(banned.begin() , banned.end());
         int n = s.size();
-        int i = 0;
+        int j = 0;
 
-        while (i < n) {
+
+        while(j < n){
+            
             string temp = "";
-            // Skip non-alphabet characters
-            while (i < n && !isalpha(s[i])) i++;
 
-            // Build the word
-            while (i < n && isalpha(s[i])) {
-                temp += tolower(s[i]);
-                i++;
+            while (j < n && !isalpha(s[j])) j++;
+            
+            while(j < n && isalpha(s[j])){
+                char ch = tolower(s[j]);
+                temp += ch;
+                j++;
             }
-
-            if (temp != "" && bannedSet.find(temp) == bannedSet.end()) {
-                mp[temp]++;
-            }
+            
+            if(temp != "" && Ban.find(temp) == Ban.end())
+               mp[temp]++;
         }
 
+        int cnt = 0;
         string res;
-        int maxFreq = 0;
-        for (auto& [word, freq] : mp) {
-            if (freq > maxFreq) {
-                res = word;
-                maxFreq = freq;
+
+        for(auto it : mp){
+
+            string ss = it.first;
+            int count = it.second;
+
+            if(cnt < count){
+               res = ss;
+               cnt = count;
             }
         }
-
+        
         return res;
     }
 };
