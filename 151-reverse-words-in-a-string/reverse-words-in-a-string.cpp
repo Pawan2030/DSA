@@ -1,34 +1,39 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        vector<string> words;
+        
+        vector<string> vec;
         int n = s.size();
-        int j = n - 1;
+        string res = "";
+        int j = n-1;
 
-        while(j >= 0) {
-            // Skip trailing spaces
-            while(j >= 0 && s[j] == ' ') j--;
+        while(j >= 0){
 
-            if(j < 0) break;
-
-            string word = "";
-            while(j >= 0 && s[j] != ' ') {
-                word += s[j];
+            while(j >= 0 && s[j] == ' '){
                 j--;
             }
+            
+            string temp = "";
 
-            reverse(word.begin(), word.end());
-            words.push_back(word);
+            while(j>=0 && s[j] != ' '){
+               temp += s[j];
+               j--;
+            }
+
+            reverse(temp.begin() , temp.end());
+            
+            if(temp != "")
+             vec.push_back(temp);
         }
 
-        // Join with single space
-        string result = "";
-        for(int i = 0; i < words.size(); i++) {
-            result += words[i];
-            if(i != words.size() - 1)
-                result += ' ';
+        for(int i=0; i<vec.size(); i++){
+            
+            res += vec[i];
+            if(i != vec.size()-1){
+                res += ' ';
+            }
         }
 
-        return result;
+        return res;
     }
 };
