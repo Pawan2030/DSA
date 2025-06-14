@@ -8,20 +8,22 @@ public:
         int j = n-1;
 
         while(i < j){
+            
+            int temp;
 
-            while(i < j && h[i] < h[j]){
-                int ar = (j-i) * min(h[i] , h[j]);
-                maxAr = max(maxAr , ar);
+            if(h[i] < h[j]){
+                temp = h[i];
                 i++;
             }
-
-            while(i < j && h[i] >= h[j]){
-                int ar = (j-i) * min(h[i] , h[j]);
-                maxAr = max(maxAr , ar);
+            else{
+                temp = h[j];
                 j--;
             }
 
+            maxAr = max(maxAr , (j-i+1)*temp);
         }
+
+        
         return maxAr;
     }
 };
