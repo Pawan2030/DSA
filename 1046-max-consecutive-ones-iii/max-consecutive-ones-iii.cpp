@@ -10,7 +10,11 @@ public:
 
         while(j < n){
 
-            while(i < j && cnt > k){
+            if(nums[j] == 0){
+                cnt++;
+            }
+
+            while(i <= j && cnt > k){
 
                 if(nums[i] == 0){
                     cnt--;
@@ -18,16 +22,10 @@ public:
                 i++;
             }
 
-            //maxOnes = max(maxOnes , j-i); 
-            
-            if(nums[j] == 0){
-                cnt++;
-            }
+            maxOnes = max(maxOnes , j-i+1);   
+        
             j++;
 
-            if(cnt <= k){
-               maxOnes = max(maxOnes , j-i); 
-            }
         }
 
         return maxOnes;
