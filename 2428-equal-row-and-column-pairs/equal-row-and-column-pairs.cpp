@@ -1,48 +1,39 @@
 class Solution {
 public:
-
     int equalPairs(vector<vector<int>>& grid) {
         
         int m = grid.size();
         int n = grid[0].size();
-        int count = 0;
 
-        unordered_map<int , vector<int>> row;
+        unordered_map<string , int> mp;
 
-        int i = 0;
+        for(int i=0; i<m; i++){
 
-        while(i < m){
+            string key = "";
 
             for(int j=0; j<n; j++){
-                row[i].push_back(grid[i][j]);
+                key += to_string(grid[i][j]) + ",";
             }
-            i++;
+
+            mp[key]++;
         }
 
-        unordered_map<int , vector<int>> col;
-        int j = 0;
+        //checking logic
+        int count = 0;
 
-        while(j < n){
+        for(int j=0; j<n; j++){
+
+            string key = "";
 
             for(int i=0; i<m; i++){
-                col[j].push_back(grid[i][j]);
+                key += to_string(grid[i][j]) + ",";
             }
 
-            //check logic
-
-            vector<int> vec1 = col[j];
-
-            for(auto it : row){
-
-               vector<int> vec2 = it.second; 
-
-               if(vec1 == vec2){
-                  count++;
-               }
+            if(mp[key]){
+                count += mp[key];
             }
-
-            j++;
         }
+
         return count;
     }
 };
