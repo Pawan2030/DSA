@@ -1,47 +1,58 @@
 class Solution {
 public:
-
-    vector<int> asteroidCollision(vector<int>& ast) {
-
+    vector<int> asteroidCollision(vector<int>& nums) {
+        
+        int n = nums.size();
         stack<int> st;
-        int n = ast.size();
+        int i = 0;
 
-        for(int i = 0; i<n; i++){
+        while(i < n){
 
-            if(ast[i] > 0){
-                st.push(i);
+            if(nums[i] > 0){
+                st.push(nums[i]);
+                cout<<"1"<<endl;
+            }
+            else if(st.empty() || st.top() < 0){
+                st.push(nums[i]);
+                 cout<<"x"<<endl;
             }
             else{
+                
 
-                while(!st.empty() && ast[st.top()] > 0){
+                if(!st.empty() && abs(nums[i]) == st.top()){
+                     st.pop();
+                      cout<<"2"<<endl;
+                }
+                else{
 
-                    if(ast[st.top()] > abs(ast[i])){
-                        ast[i] = 0;
-                        break;
+                    while(!st.empty() && nums[i] < 0 && st.top() > 0 && st.top() < abs(nums[i])){
+                      st.pop();
+                      cout<<"3"<<endl;
                     }
-                    else if(ast[st.top()] < abs(ast[i])){
-                        ast[st.top()]  = 0;
-                        st.pop();
+
+                if(!st.empty() && abs(nums[i]) == st.top()){
+                     st.pop();
+                      cout<<"2"<<endl;
+                }
+                else if(st.empty() || st.top() < 0){
+                        st.push(nums[i]);
                     }
-                    else{
-                         ast[st.top()]  = 0; 
-                         ast[i] = 0;
-                         st.pop();
-                         break;
-                    }
+
                 }
             }
 
+            i++;
         }
 
         vector<int> ans;
 
-        for(int num : ast){
-            if(num != 0){
-                ans.push_back(num);
-            }
+        while(!st.empty()){
+            ans.push_back(st.top());
+            st.pop();
         }
-        
+
+        reverse(begin(ans) , end(ans));
         return ans;
+
     }
 };
