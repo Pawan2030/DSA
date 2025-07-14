@@ -38,7 +38,7 @@ public:
             //n--;
         }
 
-        if(mp.size() > n){
+        if(dll.size() > n){
 
             int LRU = dll.back();
             dll.pop_back();
