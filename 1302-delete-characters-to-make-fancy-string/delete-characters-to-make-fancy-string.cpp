@@ -1,36 +1,22 @@
 class Solution {
 public:
     string makeFancyString(string s) {
+        vector<char> chars(s.begin(), s.end());
+        char last = chars[0];
+        int count = 1;
+        int pos = 1;
 
-      stack<char> st;
-      int size = s.length();
-      int cnt = 0;
+        for (int i = 1; i < chars.size(); ++i) {
+            if (chars[i] != last) {
+                last = chars[i];
+                count = 0;
+            }
 
-       for(int i=0; i<size; i++){
-          
-          if(i > 0 && s[i] == s[i-1]){
-             cnt += 1;
+            if (++count > 2) continue;
 
-             if(cnt < 3){
-                st.push(s[i]);
-             }
-          }
-          else{
-            cnt = 1;
-            st.push(s[i]);
-          }
-       }
+            chars[pos++] = chars[i];
+        }
 
-       string res = "";
-
-       while(!st.empty()){
-          char ch = st.top();
-          st.pop();
-          res += ch;
-       }
-
-       reverse(begin(res) , end(res));
-
-       return res;  
+        return string(chars.begin(), chars.begin() + pos);
     }
 };
