@@ -11,16 +11,34 @@
  */
 class Solution {
 public:
-   
-   
+
+    void solve(TreeNode* root , int cnt ,int &ans){
+
+        if(!root->left && !root->right){
+            ans = max(ans , cnt);
+            return;
+        }
+
+        if(root->left){
+            cout<<"cnt "<<cnt<<endl;
+            solve(root->left , cnt+1 , ans);
+        }
+
+         if(root->right){
+             cout<<"cnt "<<cnt<<endl;
+            solve(root->right , cnt+1 , ans);
+        }
+
+    }
+
     int maxDepth(TreeNode* root) {
-        
-        //base case
+
         if(!root) return 0;
 
-        int l = maxDepth(root->left);
-        int r = maxDepth(root->right);
+        int cnt = 1;
+        int ans = 0;
+        solve(root , cnt , ans);
+        return ans;
         
-        return max(l , r) + 1;
     }
 };
