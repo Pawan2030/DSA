@@ -1,27 +1,30 @@
 class Solution {
 public:
-
     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
         
-        int totalGas = 0;
-        int currGas  = 0;
-        int startIdx = 0;
-        int n = gas.size();
+        int totalGas  = 0;
+        int totalCost = 0;
 
-        for(int i=0; i<n; i++){
+        for(int i=0; i<gas.size(); i++){
+           totalGas += gas[i];
+           totalCost += cost[i];
+        }
 
-            totalGas = totalGas + gas[i] - cost[i]; // i - i+1 the cost to traval b/w these station is cost[i] so we need to subtract this amout of gas
+        if(totalGas < totalCost) return -1;
+
+        int currGas = 0;
+        int idx = 0;
+
+        for(int i=0; i<gas.size(); i++){
+
             currGas = currGas + gas[i] - cost[i];
 
             if(currGas < 0){
-                currGas  = 0;
-                startIdx = i+1;
+                currGas = 0;
+                idx = i+1;
             }
-
         }
 
-        if(totalGas < 0) return -1; // cost is hight to travel b/w stations so cant possibel to reach again on circuit same station where we started.
-        return startIdx;
-
+        return idx;
     }
 };
