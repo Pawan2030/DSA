@@ -12,39 +12,46 @@
 class Solution {
 public:
     
-    vector<int> rightSideView(TreeNode* root) {
-        
-        if(!root) return {};
-        vector<int> res;
-        queue<TreeNode*> q;
+    void solve(TreeNode* root , queue<TreeNode*>& q, vector<int>& num){
+
+
         q.push(root);
 
         while(!q.empty()){
 
-            int size = q.size();
+            int n = q.size();
 
-            while(size > 0){
-                
-                TreeNode* front = q.front();
+            while(n--){
+
+                TreeNode* f = q.front();
                 q.pop();
 
-                if(front->left){
-                    q.push(front->left);
+                if(n == 0){
+                    num.push_back(f->val);
                 }
 
-                if(front->right){
-                    q.push(front->right);
+                if(f->left){
+                    q.push(f->left);
                 }
 
-                if(size == 1){
-                    res.push_back(front->val);
+                if(f->right){
+                    q.push(f->right);
                 }
 
-                size -= 1;
             }
 
         }
 
-        return res;
+    }
+
+    vector<int> rightSideView(TreeNode* root) {
+        
+        queue<TreeNode*> q;
+        vector<int> num;
+
+        if(!root) return num;
+
+        solve(root , q , num);
+        return num;
     }
 };
