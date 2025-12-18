@@ -17,9 +17,9 @@ public:
         int skip = solve(i+1 , prev , n , nums);
         
         if(prev != -1){
-            t[i][prev] =  max(take , skip);
+            return t[i][prev] =  max(take , skip);
         }
-        
+
         return max(take , skip);
     }
 
