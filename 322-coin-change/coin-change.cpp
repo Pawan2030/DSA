@@ -1,37 +1,40 @@
 class Solution {
 public:
     
-    int n;
+    int t[13][10001];
 
-    int dp[13][10001];
-
-    int solve(int i , int amount , vector<int>& coins){
+    int solve(int i , int n , vector<int>& coins , int amount){
 
         if(amount == 0){
-            return 0;
+           return 0;
         }
 
-        if(i >= n || amount < 0) return 1e5;
+        if(i >= n || amount < 0) return 10e5;
 
-        if(dp[i][amount] != -1) return dp[i][amount];
-        
-        int take = INT_MAX;
-        if(amount >= coins[i]){
-           take = 1+solve(i , amount-coins[i] , coins);
+        if(t[i][amount] != -1) return t[i][amount];
+         
+        int take = 10e5;
+
+        if(coins[i] <= amount){
+            take = 1 + solve(i , n , coins , amount-coins[i]);
         }
 
-        int skip = solve(i+1 , amount, coins);
+        int skip = solve(i+1 , n , coins , amount);
 
-        return dp[i][amount] = min(take , skip);
+        return t[i][amount] = min(take , skip);
+
     }
-
+ 
     int coinChange(vector<int>& coins, int amount) {
         
-        n = coins.size();
-        memset(dp , -1 , sizeof(dp));
-        
-       int ans = solve(0 , amount , coins);
+        int n = coins.size();
+        //int ans = INT_MAX;
+        memset(t , -1 , sizeof(t));
 
-       return ans == 1e5 ? -1 : ans;
+        int ans = solve(0 , n , coins , amount);
+
+        if(ans == 10e5) return -1;
+
+        return ans;
     }
 };
