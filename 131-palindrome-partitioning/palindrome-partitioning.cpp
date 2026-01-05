@@ -1,16 +1,14 @@
 class Solution {
 public:
-    
-    vector<vector<string>> res;
-    int n;
 
-    bool isPalindrome(string &check){
+    bool isPalindrome(string &temp){
 
         int i = 0;
-        int j = check.length()-1;
+        int j = temp.size()-1;
 
-        while(i < j){
-            if(check[i] != check[j]){
+        while(i <= j){
+
+            if(temp[i] != temp[j]){
                 return false;
             }
             i++;
@@ -18,31 +16,32 @@ public:
         }
         return true;
     }
+    
+    void solve(int idx, string &s, int n, vector<string> arr, vector<vector<string>> &res){
+         
+         if(idx == n){
+            res.push_back(arr);
+            return;
+         }
 
-    void solve(int i, vector<string> &temp, string& s){
-
-       if( i >= n){
-          res.push_back(temp);
-          return;
-       }
-
-       for(int l=1; l+i<=n; l++){
-
-        string check = s.substr(i , l);
-        if(isPalindrome(check)){
-            temp.push_back(check);
-            solve(i+l,temp,s);
-            temp.pop_back();
-        }
-
-       }
+         for(int l=1; l<=n-idx; l++){
+             
+             string temp = s.substr(idx , l);
+             if(isPalindrome(temp)){
+                arr.push_back(temp);
+                solve(idx+l , s , n ,arr , res);
+                arr.pop_back();
+             }
+         }
 
     }
 
     vector<vector<string>> partition(string s) {
-        vector<string> temp;
-        n = s.size();
-        solve(0, temp , s);
-        return res;   
+        
+        int n = s.size();
+        vector<vector<string>> res;
+        vector<string> arr;
+        solve(0 , s , n , arr, res);
+        return res;
     }
 };
