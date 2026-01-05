@@ -17,7 +17,7 @@ public:
         return true;
     }
     
-    void solve(int idx, string &s, int n, vector<string> arr, vector<vector<string>> &res){
+    void solve(int idx, string &s, int n, vector<string>& arr, vector<vector<string>> &res){
          
          if(idx == n){
             res.push_back(arr);
