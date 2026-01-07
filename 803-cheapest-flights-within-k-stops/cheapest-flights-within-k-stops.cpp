@@ -1,65 +1,50 @@
 class Solution {
 public:
-    
-    void Dijsktra(int s , int k , unordered_map<int , vector<vector<int>>>& adj , vector<int>& miniCost){
-        
-        //priority_queue<pair<int,pair<int,int>> , vector<pair<int,pair<int,int>>> , greater<pair<int,pair<int,int>>>> pq;
-        queue<pair<int,pair<int,int>>> pq;
-        pq.push({0 , {0 , s}}); //cost -> stop, station
-        int level = 0;
-
-        while(!pq.empty() && level <= k){
-            
-            int size = pq.size();
-        
-            //if(stop > k) continue;
-
-            while(size--){
-
-                int w    = pq.front().first;
-                int stop = pq.front().second.first;
-                int u    = pq.front().second.second;
-                pq.pop(); 
-
-                for(auto &ngr : adj[u]){
-
-                int node = ngr[0];
-                int    d = ngr[1];
-
-                if(w+d < miniCost[node]){
-                        miniCost[node] = w+d;
-                        pq.push({w+d , {stop+1 , node}});
-                    }
-                }
-            }
-         
-         level++;
-    }
-}
 
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
         
-        vector<int> miniCost(n , INT_MAX);
-        miniCost[src] = 0;
+        // lets prep the adj list
+        unordered_map<int, vector<pair<int,int>>> adj;
 
-        unordered_map<int , vector<vector<int>>> adj;
+        for(auto it : flights){
 
-        for(auto &fly : flights){
+            int s = it[0];
+            int d = it[1];
+            int p = it[2];
 
-            int u = fly[0];
-            int v = fly[1];
-            int w = fly[2];
-
-            adj[u].push_back({v , w});
+            adj[s].push_back({d , p});
         }
 
-        Dijsktra(src , k , adj , miniCost);
+        vector<int> dist(n , INT_MAX); // price , num of station
+        //  k(num of station) - stop -price
+        priority_queue<pair<int,pair<int,int>> , vector<pair<int,pair<int,int>>> , greater<pair<int,pair<int,int>>>> pq;
+        dist[src] = 0;
+        pq.push({0 , {src , 0 } });
 
-        for(int i =0; i<n; i++){
-            cout<<i<<"-> "<<miniCost[i]<<endl;
+        while(!pq.empty()){
+
+            auto it = pq.top();
+            pq.pop();
+
+            int stop  = it.first;
+            int u     = it.second.first;
+            int p     = it.second.second;
+
+            if(stop > k) continue;
+
+            for(auto ngr : adj[u]){
+
+                int node  = ngr.first;
+                int price = ngr.second;
+
+                if(p + price < dist[node] && stop <= k){
+                    dist[node] = p + price;
+                    pq.push({stop+1 , { node , p + price}});
+                }
+            }
+
         }
 
-        return miniCost[dst] != INT_MAX ? miniCost[dst] : -1;
-
+        return dist[dst] == INT_MAX ? -1 : dist[dst];
     }
 };
