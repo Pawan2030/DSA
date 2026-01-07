@@ -17,33 +17,40 @@ public:
 
         vector<int> dist(n , INT_MAX); // price , num of station
         //  k(num of station) - stop -price
-        priority_queue<pair<int,pair<int,int>> , vector<pair<int,pair<int,int>>> , greater<pair<int,pair<int,int>>>> pq;
+        queue<pair<int , pair<int,int>>> pq;
         dist[src] = 0;
+        int step = 0;
         pq.push({0 , {src , 0 } });
 
-        while(!pq.empty()){
+        while(!pq.empty() && step <= k){
 
-            auto it = pq.top();
-            pq.pop();
+            int N = pq.size();
 
-            int stop  = it.first;
-            int u     = it.second.first;
-            int p     = it.second.second;
+            while(N--){
 
-            if(stop > k) continue;
+                auto it = pq.front();
+                pq.pop();
 
-            for(auto ngr : adj[u]){
+                int stop  = it.first;
+                int u     = it.second.first;
+                int p     = it.second.second;
 
-                int node  = ngr.first;
-                int price = ngr.second;
+                if(stop > k) continue;
 
-                if(p + price < dist[node] && stop <= k){
-                    dist[node] = p + price;
-                    pq.push({stop+1 , { node , p + price}});
-                }
+                for(auto ngr : adj[u]){
+
+                   int node  = ngr.first;
+                   int price = ngr.second;
+
+                   if(p + price < dist[node]){
+                      dist[node] = p + price;
+                      pq.push({stop+1 , { node , p + price}});
+                   }
             }
 
         }
+        step++;
+    }
 
         return dist[dst] == INT_MAX ? -1 : dist[dst];
     }
