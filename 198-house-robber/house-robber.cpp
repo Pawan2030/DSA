@@ -28,12 +28,12 @@ public:
           
           int take = 0;
 
-          if(i+2 < n){
-              take = nums[i] + t[i+2];
-          }
+          
+            take = i+2 < n ? nums[i] + t[i+2]  : nums[i];
+          
           
            int skip = t[i+1];
-           t[i] = max({take, skip, nums[i]});
+           t[i] = max(take, skip);
        }
         
         return t[0];
