@@ -1,5 +1,6 @@
 class Solution {
 public:
+    int n;
     
     int solve(int i, vector<int> & nums, vector<int> &dp){
 
@@ -17,10 +18,31 @@ public:
         return dp[i] = max(take, skip);
     }
 
+    
+    int solveTab(vector<int> &nums){
+       
+       vector<int> t(n+1, 0);
+       t[n] = nums[n-1];
+
+       for(int i=n-1; i>=0; i--){
+          
+          int take = 0;
+
+          if(i+2 < n){
+              take = nums[i] + t[i+2];
+          }
+          
+           int skip = t[i+1];
+           t[i] = max({take, skip, nums[i]});
+       }
+        
+        return t[0];
+    }
+
 
     int rob(vector<int>& nums) {
-        int n = nums.size();
+        n = nums.size();
         vector<int> dp(n+1, -1);
-        return solve(0, nums, dp);  
+        return solveTab(nums);  
     }
 };
