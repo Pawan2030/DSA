@@ -1,44 +1,43 @@
 class Solution {
 public:
-    
-    bool isCycle(int u, vector<bool> inRec, vector<bool> &visited, unordered_map<int,vector<int>>& adj){
-         
-         visited[u] = true;
-         inRec[u]   = true;
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        
+         unordered_map<int , vector<int>> mp;
+         vector<int> in(numCourses , 0);
 
-         for(int &v : adj[u]){
+         for(auto prep : prerequisites){
+              int u = prep[1];
+              int v = prep[0];
+              mp[u].push_back(v);
+              in[v]++;
+         }
 
-            if(visited[v] && inRec[v]) return true;
-            
-            if(!visited[v] && isCycle(v,inRec,visited,adj)){
-               return true;
+         queue<int> q;
+         int cnt = 0;
+
+         for(int i=0; i<in.size(); i++){
+             
+             if(in[i] == 0){
+                q.push(i);
+             }
+         }
+
+         while(!q.empty()){
+
+            int it = q.front();
+            q.pop();
+            cnt++;
+
+            for(int ngr : mp[it]){
+
+                in[ngr]--;
+
+                if(in[ngr] == 0){
+                    q.push(ngr);
+                }
             }
          }
 
-         return false;
-    }
-
-    bool canFinish(int n, vector<vector<int>>& prerequisites) {
-        
-        unordered_map<int,vector<int>> adj;
-
-        for(auto vec : prerequisites){
-
-            int v = vec[0];
-            int u = vec[1];
-            //u--->>v
-            adj[u].push_back(v);
-        }
-
-        vector<bool> visited(n , false);
-        vector<bool> inRec(n , false);
-    
-        for(int i=0; i<n; i++){
-            
-            if(!visited[i] && isCycle(i,inRec,visited,adj)){
-               return false ;// cycle present so never possible to finish all course
-            }
-        }
-        return true;
+         return cnt == numCourses;
     }
 };
