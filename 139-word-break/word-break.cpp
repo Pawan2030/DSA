@@ -1,29 +1,26 @@
 class Solution {
 public:
    
-   
-   int t[301];
-
-   bool solve(int idx, string &s, int n,  unordered_map<string,int>& dist,  vector<bool>& dp){
+   bool solve(int idx, string &s, int n,  unordered_map<string,int>& dist,  vector<int>& dp){
         
        if(idx == n){
-          return t[idx] = true;
+          return dp[idx] = 1;
        }
 
-       if(t[idx] != -1){
-          return t[idx];
+       if(dp[idx] != -1){
+          return dp[idx];
        }
 
-       for(int len=1; len<=n; len++){
+       for(int len=1; len+idx<=n; len++){
            
            string st = s.substr(idx, len);
 
            if(dist.find(st) != dist.end()){
               bool e = solve(idx+len, s, n, dist, dp);
-              if(e) return t[idx] = true;
+              if(e) return dp[idx] = 1;
            }
        }
-       return t[idx] = false;
+       return dp[idx] = 0;
    }
 
 
@@ -32,8 +29,7 @@ public:
         //map to store all dict words
         unordered_map<string,int> dist;
         int n = s.size();
-        vector<bool> dp(n+1, -1);
-        memset(t , -1 , sizeof(t));
+        vector<int> dp(n+1, -1);
 
         for(string &word : wordDict){
             dist[word]++;
