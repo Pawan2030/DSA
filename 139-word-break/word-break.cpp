@@ -1,41 +1,44 @@
 class Solution {
 public:
-    
-    int n;
-    int t[301];
+   
+   
+   int t[301];
 
-    bool solve(int idx, string &s, unordered_map<string,int> &mp){
+   bool solve(int idx, string &s, int n,  unordered_map<string,int>& dist,  vector<bool>& dp){
+        
+       if(idx == n){
+          return t[idx] = true;
+       }
 
-        if(idx == n){
-            return t[idx] = true; 
-        }
+       if(t[idx] != -1){
+          return t[idx];
+       }
 
-        if(t[idx] != -1) return t[idx];
+       for(int len=1; len<=n; len++){
+           
+           string st = s.substr(idx, len);
 
-        if(mp.find(s.substr(idx , n - idx)) != mp.end()){
-            return t[idx] = true;
-        }
+           if(dist.find(st) != dist.end()){
+              bool e = solve(idx+len, s, n, dist, dp);
+              if(e) return t[idx] = true;
+           }
+       }
+       return t[idx] = false;
+   }
 
-        for(int l=1; l<=n; l++){
-            
-            string temp = s.substr(idx , l);
-
-            if(mp.find(temp) != mp.end() && solve(idx+l , s , mp)){
-                return t[idx] = true;
-            }
-        }
-
-        return t[idx] = false;
-    }
 
     bool wordBreak(string s, vector<string>& wordDict) {
         
-        unordered_map<string,int> mp;
-        n = s.size();
+        //map to store all dict words
+        unordered_map<string,int> dist;
+        int n = s.size();
+        vector<bool> dp(n+1, -1);
         memset(t , -1 , sizeof(t));
+
         for(string &word : wordDict){
-            mp[word]++;
+            dist[word]++;
         }
-        return solve(0 , s , mp);
+
+        return solve(0, s, n, dist, dp);
     }
 };
