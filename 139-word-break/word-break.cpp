@@ -11,7 +11,7 @@ public:
           return dp[idx];
        }
 
-       for(int len=1; len+idx<=n; len++){
+       for(int len=1; len<=n; len++){
            
            string st = s.substr(idx, len);
 
