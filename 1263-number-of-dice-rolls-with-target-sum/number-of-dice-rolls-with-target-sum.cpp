@@ -13,7 +13,7 @@ public:
             return 0;
         }
 
-        if(tar <= 0 && n != 0){
+        if(tar <= 0){
             return 0;
         }
 
