@@ -1,34 +1,37 @@
 class Solution {
 public:
     
-    int t[2501][2501];
+    int solve(int idx, int prev, vector<int>& nums, int n,  vector<vector<int>>& dp){
+         
+         // base case
+         if(idx == n){
+            return 0;
+         }
 
-    int solve(int i , int prev , int n , vector<int>& nums){
+         if(prev != -1 && dp[idx][prev] != -1){
+            return dp[idx][prev];
+         }
 
-        if(i >= n) return 0;
+         //logic
+         int take = 0;
+         if(prev == -1 || nums[prev] < nums[idx]){
+             take = 1 + solve(idx+1, idx, nums, n, dp);
+         }
 
-        if(prev != -1 && t[i][prev] != -1) return t[i][prev];
-
-        int take = 0;
-        if(prev == -1 || nums[prev] < nums[i]){
-            take = 1 + solve(i+1 , i , n , nums);
-        }
-
-        int skip = solve(i+1 , prev , n , nums);
-        
-        if(prev != -1){
-            return t[i][prev] =  max(take , skip);
-        }
-
-        return max(take , skip);
+         int skip = solve(idx+1, prev, nums, n, dp);
+         
+         if(prev != -1){
+            dp[idx][prev] = max(take,skip);
+         }
+         
+         return max(take,skip);
     }
-
-
+     
 
     int lengthOfLIS(vector<int>& nums) {
 
         int n = nums.size();
-        memset(t , -1 ,sizeof(t));
-        return solve(0 , -1 , n , nums); 
+        vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
+        return solve(0, -1, nums, n, dp);
     }
 };
