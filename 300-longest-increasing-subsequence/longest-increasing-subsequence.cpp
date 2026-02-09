@@ -8,8 +8,8 @@ public:
             return 0;
          }
 
-         if(prev != -1 && dp[idx][prev] != -1){
-            return dp[idx][prev];
+         if(dp[idx][prev+1] != -1){
+            return dp[idx][prev+1];
          }
 
          //logic
@@ -19,19 +19,36 @@ public:
          }
 
          int skip = solve(idx+1, prev, nums, n, dp);
-         
-         if(prev != -1){
-            dp[idx][prev] = max(take,skip);
-         }
-         
-         return max(take,skip);
+      
+         return dp[idx][prev+1] = max(take,skip);
+    }
+
+    int Tabulation(vector<int>& nums, int n){
+        
+        vector<int> dp(n,1);
+        int maxLIS = 1;
+
+        for(int i=0; i<n; i++){
+          
+          for(int j=0; j<i; j++){
+        
+             if(nums[j] < nums[i]){
+                 dp[i] = max(dp[i] , 1 + dp[j]);
+                 //cout<<"big --  "<<dp[i]<<endl;
+             }
+             
+             maxLIS = max(maxLIS , dp[i]);
+          }
+        }
+        return maxLIS;
     }
      
 
     int lengthOfLIS(vector<int>& nums) {
 
         int n = nums.size();
-        vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
-        return solve(0, -1, nums, n, dp);
+        //vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
+        //return solve(0, -1, nums, n, dp);
+        return Tabulation(nums,n);
     }
 };
