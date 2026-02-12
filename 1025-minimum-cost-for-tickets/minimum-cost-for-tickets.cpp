@@ -1,38 +1,48 @@
 class Solution {
 public:
-    int f(int ind,vector<int> &costs,vector<int> &days,int n,vector<int> &dp){
+    
+    int n;
 
-        if(ind>=n){
+    int solve(int idx, vector<int>& days, vector<int>& costs, vector<int>& dp){
+
+        //base case
+        if(idx >= n){
             return 0;
         }
-        if(dp[ind]!=-1){
-            return dp[ind];
-        }
-        int Day1=costs[0]+f(ind+1,costs,days,n,dp);
-        int i;
-        for(i=ind;i<n;i++){
-            if(days[i]>=days[ind]+7){
-                break;
-            }
-        }
-        int Day7=costs[1]+f(i,costs,days,n,dp);
-        int j;
-        for(j=ind;j<n;j++){
-            if(days[j]>=days[ind]+30){
-                break;
-            }
-        }
-        int Day30=costs[2]+f(j,costs,days,n,dp);
 
+        if(dp[idx] != -1){
+            return dp[idx];
+        }
         
-        return dp[ind]=min(Day1,min(Day7,Day30));
+        //one day pass
+        int oneDayPass    = costs[0] + solve(idx+1, days, costs, dp);
+
+        int maxDay = days[idx] + 7;
+        int j = idx;
+
+        while(j < n && days[j] < maxDay){
+            j++;
+        }
+
+        //7 days pass
+        int sevenDayPass  = costs[1] + solve(j, days, costs, dp);
+
+        maxDay = days[idx] + 30;
+        j = idx;
+
+        while(j < n && days[j] < maxDay){
+            j++;
+        }
+
+        //30 days pass
+        int thirtyDayPass = costs[2] + solve(j, days, costs, dp);
+
+        return dp[idx] = min({oneDayPass, sevenDayPass, thirtyDayPass});
     }
 
     int mincostTickets(vector<int>& days, vector<int>& costs) {
-    
-        int n=days.size();
-        vector<int> dp(n+1,-1);
-        return f(0,costs,days,n,dp);
-        
+        n = days.size();
+        vector<int> dp(n+1, -1);
+        return solve(0,days,costs,dp);
     }
 };
