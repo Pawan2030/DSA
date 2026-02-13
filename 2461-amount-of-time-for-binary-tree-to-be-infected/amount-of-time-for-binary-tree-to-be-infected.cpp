@@ -11,32 +11,78 @@
  */
 class Solution {
 public:
-    int solve(TreeNode* root, int start , int &res){
+    
+    void makeMap(TreeNode* root, unordered_map<int , vector<int>>& mp){
+        
+        queue<TreeNode*> q;
+        unordered_set<int> visited;
+        q.push(root);
+        //visited.insert(root->val);
 
-        if(!root) return 0;
+        while(!q.empty()){
 
-        int l = solve(root->left , start , res);
-        int r = solve(root->right , start , res);
+            TreeNode* front = q.front();
+            q.pop();
 
-        if(root->val == start){
-            res = max(l , r);
-            return -1;
+            if(visited.count(front->val)){
+                continue;
+            }
+
+            if(front->left){
+                mp[front->left->val].push_back(front->val);
+                mp[front->val].push_back(front->left->val);
+                q.push(front->left);
+            }
+
+            if(front->right){
+                mp[front->right->val].push_back(front->val);
+                mp[front->val].push_back(front->right->val);
+                q.push(front->right);
+            }
+
+            visited.insert(front->val);
+        }
+    }
+
+    int Burning(int &st,  unordered_map<int , vector<int>> &mp){
+
+        queue<int> q;
+        int minTime = 0;
+        q.push(st);
+        unordered_set<int> visited;
+        visited.insert(st);
+
+        while(!q.empty()){
+
+            int n = q.size();
+
+            while(n--){
+
+                int f = q.front();
+                q.pop();
+
+                for(int it : mp[f]){
+                    
+                    if(!visited.count(it)){
+                        q.push(it);
+                        visited.insert(it);
+                    }
+                }
+            }
+            minTime++;
         }
 
-        if(l < 0 || r < 0){
-             
-            int add = abs(l) + abs(r);
-            res = max(res , add);
-            return min(l , r) - 1;
-        }
-
-       return max(l , r) + 1;
+        return minTime-1;
     }
 
     int amountOfTime(TreeNode* root, int start) {
-         
-         int res;
-         solve(root , start , res);
-         return res;
+        
+        // child to parents map
+        unordered_map<int , vector<int>> mp;
+        makeMap(root,mp);
+
+        //main logic
+        return Burning(start,mp);
+
     }
 };
