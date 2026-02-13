@@ -24,9 +24,9 @@ public:
             TreeNode* front = q.front();
             q.pop();
 
-            if(visited.count(front->val)){
-                continue;
-            }
+            // if(visited.count(front->val)){
+            //     continue;
+            // }
 
             if(front->left){
                 mp[front->left->val].push_back(front->val);
