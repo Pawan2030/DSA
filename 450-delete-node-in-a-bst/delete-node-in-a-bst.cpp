@@ -23,6 +23,7 @@ public:
         }
 
         TreeNode* rightNode = root->right;
+        root->right == NULL;
         TreeNode* leftRightMostNode = root->left;
 
         while(leftRightMostNode->right != NULL){
