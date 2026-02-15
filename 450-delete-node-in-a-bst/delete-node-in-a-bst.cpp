@@ -22,16 +22,15 @@ public:
             return root->left;
         }
 
-        TreeNode* rightNode = root->right;
-        root->right == NULL;
-        TreeNode* leftRightMostNode = root->left;
+        TreeNode* leftNode = root->left;
+        TreeNode* rightLeftMost = root->right;
 
-        while(leftRightMostNode->right != NULL){
-             leftRightMostNode = leftRightMostNode->right;
+        while(rightLeftMost->left != NULL){
+             rightLeftMost = rightLeftMost->left;
         }
 
-        leftRightMostNode->right = rightNode;
-        return root->left;
+        rightLeftMost->left = leftNode;
+        return root->right;
     }
 
     TreeNode* deleteNode(TreeNode* root, int key) {
