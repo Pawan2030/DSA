@@ -11,31 +11,31 @@
  */
 class Solution {
 public:
-    
-    TreeNode* helper(TreeNode* root){
 
-        if(!root->left){
+   TreeNode* helper(TreeNode* root){
+       
+        if(root->left == NULL){
             return root->right;
         }
 
-        if(!root->right){
+        if(root->right == NULL){
             return root->left;
         }
 
-        TreeNode* leftNode = root->left;
-        TreeNode* rightLeftMost = root->right;
+        TreeNode* rightNodes = root->right;
+        TreeNode* leftRightMost = root->left;
 
-        while(rightLeftMost->left != NULL){
-             rightLeftMost = rightLeftMost->left;
+        while(leftRightMost->right != NULL){
+            leftRightMost = leftRightMost->right;
         }
 
-        rightLeftMost->left = leftNode;
-        return root->right;
-    }
+        leftRightMost->right = rightNodes;
+        return root->left;
+   }
 
     TreeNode* deleteNode(TreeNode* root, int key) {
         
-        if(!root) return NULL;
+        if(root == NULL) return NULL;
 
         if(root->val == key){
             return helper(root);
@@ -43,10 +43,10 @@ public:
 
         TreeNode* dummy = root;
 
-        while(root){
-            
-            // traversal ->left
+        while(root != NULL){
+
             if(root->val > key){
+                
                 if(root->left && root->left->val == key){
                     root->left = helper(root->left);
                     break;
@@ -55,15 +55,17 @@ public:
                     root = root->left;
                 }
             }
-            else{ // traversal -> right   
+            else{
+
                 if(root->right && root->right->val == key){
-                    root->right = helper(root->right);
+                    root->right =  helper(root->right);
                     break;
                 }
                 else{
                     root = root->right;
                 }
             }
+
         }
         return dummy;
     }
