@@ -2,9 +2,24 @@ class Solution {
 public:
     bool isAnagram(string s, string t) {
         
-        sort(s.begin(),s.end());
-        sort(t.begin(),t.end());
+        vector<int> freq(26,0);
 
-        return s == t;
+        if(s.size() != t.size()) return false;
+
+        for(char &ch : s){
+            freq[ch-'a']++;
+        }
+
+        for(char &ch : t){
+
+            if(freq[ch-'a'] > 0){
+                freq[ch-'a']--;
+            }
+            else{
+                return false;
+            }
+        }
+
+        return true;
     }
 };
