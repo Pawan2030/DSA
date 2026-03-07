@@ -10,8 +10,8 @@ public:
         int n = nums.size();
        // sort(begin(nums) , end(nums));
        unordered_map<int,int> mp;
-        vector<int> res;
-        priority_queue<pair<int,int>> pq;
+       vector<int> res;
+       priority_queue<pair<int,int> , vector<pair<int,int>> , greater<pair<int,int>>> pq;
 
         for(int &num : nums){
             mp[num]++;
@@ -19,6 +19,10 @@ public:
 
         for(auto &it : mp){
             pq.push({it.second , it.first});
+
+            if(pq.size() > k){
+                pq.pop();
+            }
         }
 
         while(k--){
