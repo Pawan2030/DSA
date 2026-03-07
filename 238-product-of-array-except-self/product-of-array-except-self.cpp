@@ -4,7 +4,6 @@ public:
         
         int n = nums.size();
         vector<int> prefix(n , 1);
-        vector<int> sufix(n,1);
         vector<int> res(n);
         
         long long val = 1;
@@ -16,13 +15,9 @@ public:
         }
 
         val = 1;
-        for(int i=n-2; i>=0; i--){
-            val *= nums[i+1];
-            sufix[i] = val;
-        }
-
-        for(int i=0; i<n; i++){
-            res[i] = prefix[i]*sufix[i];
+        for(int i=n-1; i>=0; i--){
+            res[i] = prefix[i]*val;
+            val *= nums[i];
         }
 
         return res;
