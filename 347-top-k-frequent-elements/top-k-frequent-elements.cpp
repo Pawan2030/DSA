@@ -8,21 +8,17 @@ public:
         //put in res arr and return res;
 
         int n = nums.size();
-        sort(begin(nums) , end(nums));
+       // sort(begin(nums) , end(nums));
+       unordered_map<int,int> mp;
         vector<int> res;
         priority_queue<pair<int,int>> pq;
-        int i = 0;
 
-        while(i < n){
+        for(int &num : nums){
+            mp[num]++;
+        }
 
-            int count = 0;
-            int num = nums[i];
-            while(i < n && num == nums[i]){
-               count++;
-               i++;
-            }
-
-            pq.push({count , num});
+        for(auto &it : mp){
+            pq.push({it.second , it.first});
         }
 
         while(k--){
