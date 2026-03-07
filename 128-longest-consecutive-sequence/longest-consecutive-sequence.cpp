@@ -2,29 +2,31 @@ class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
         
-        if(nums.size() == 0){
-            return 0;
+        priority_queue<int, vector<int>, greater<int>> pq;
+        int res = 0;
+
+        for(int &num : nums){
+            pq.push(num);
         }
-        
-        sort(begin(nums) , end(nums));
 
-        int mini = INT_MIN;
-        int high = 0;
-        int cnt = 1; 
+        while(pq.size()){
 
-        for(int i = 0; i<nums.size(); i++){
+            int cnt = 1;
+            int num = pq.top();
+            pq.pop();
 
-            if(nums[i]-1 == mini){
-                mini = nums[i];
+            while(pq.size() && num+1 == pq.top()){
                 cnt++;
+                num = pq.top();
+                pq.pop();
+                while(pq.size() && num == pq.top()){
+                    pq.pop();
+                }
             }
-            else if(nums[i] != mini){
-                cnt = 1;
-                mini = nums[i];;
-            }
-            
-            high = max(high , cnt);
+
+            res = max(res , cnt);
         }
-        return high;
+
+        return res;
     }
 };
