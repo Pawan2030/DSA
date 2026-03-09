@@ -3,29 +3,28 @@ public:
     bool isPalindrome(string s) {
         
         int n = s.size();
-        string ss = "";
-
-        for(int i=0; i<n; i++){
-
-            char ch = s[i];
-
-            if((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch  >= '0' && ch <= '9')){
-                ss += tolower(ch);
-            }
-        }
-
-        // for(char ch : ss){
-        //     cout<<ch;
-        // }
-
         int i = 0;
-        int j = ss.size()-1;
+        int j = n-1;
 
         while(i < j){
+            
+            while((i < j ) && !((s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z') || (s[i]  >= '0' && s[i] <= '9'))){
+                i++;
+            }
 
-            if(ss[i] != ss[j]){
+            while((i < j ) && !((s[j] >= 'A' && s[j] <= 'Z') || (s[j] >= 'a' && s[j] <= 'z') || (s[j]  >= '0' && s[j] <= '9'))){
+                j--;
+            }
+
+            char ch1 = tolower(s[i]);
+            char ch2 = tolower(s[j]);
+
+            cout<<ch1<<" - "<<ch2<<endl;
+
+            if(ch1 != ch2){
                 return false;
             }
+
             i++;
             j--;
         }
