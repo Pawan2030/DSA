@@ -10,8 +10,9 @@ public:
         int rightMax = INT_MIN;
 
         for(int i=n-2; i>=0; i--){
+             rightMax = max(rightMax , height[i]);
             rightToLeft[i] = max(rightMax , rightToLeft[i+1]);
-            rightMax = max(rightMax , height[i]);
+           
         }
 
         int res = 0;
