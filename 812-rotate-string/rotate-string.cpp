@@ -2,21 +2,27 @@ class Solution {
 public:
     bool rotateString(string s, string goal) {
         
-        int n1 = s.length();
-        int n2 = goal.length();
+        if(s.size() != goal.size()) return false;
 
-        if(n1 != n2) return false;
-        else if(s == goal) return true;
-        
-        int cnt = n1;
-        int i = 1;
+        string temp = s+s;
+        int n = temp.size();
+        int cnt = 0;
+        int ss = goal.size();
 
-        while(cnt--){
+        int i = 0;
 
-            string temp = s.substr(i , n1-i) + s.substr(0 , i);
+        while(i < n){
 
-            if(temp == goal) return true;
+            int j = 0;
+            int k = i;
 
+            while(k < n && j < ss && temp[k] == goal[j]){
+               // cout<<temp[i];
+                k++;
+                j++;
+
+            }
+            if(j == ss) return true;
             i++;
         }
 
