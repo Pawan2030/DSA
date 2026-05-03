@@ -3,30 +3,8 @@ public:
     bool rotateString(string s, string goal) {
         
         if(s.size() != goal.size()) return false;
+        s = s+s;
 
-        string temp = s+s;
-        int n = temp.size();
-        int cnt = 0;
-        int ss = goal.size();
-
-        int i = 0;
-
-        while(i < n){
-
-            int j = 0;
-            int k = i;
-            int cnt = 0;
-
-            while(k < n && j < ss && temp[k] == goal[j]){
-               // cout<<temp[i];
-                k++;
-                j++;
-                cnt++;
-            }
-            if(cnt == ss) return true;
-            i++;
-        }
-
-        return false;
+        return s.find(goal) != string :: npos;
     }
 };
