@@ -15,14 +15,15 @@ public:
 
             int j = 0;
             int k = i;
+            int cnt = 0;
 
             while(k < n && j < ss && temp[k] == goal[j]){
                // cout<<temp[i];
                 k++;
                 j++;
-
+                cnt++;
             }
-            if(j == ss) return true;
+            if(cnt == ss) return true;
             i++;
         }
 
