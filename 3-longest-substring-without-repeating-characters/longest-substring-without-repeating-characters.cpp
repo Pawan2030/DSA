@@ -12,7 +12,7 @@ public:
 
         while(j < n){
 
-            while(i < j && st.find(s[j]) != st.end()){
+            while(i <= j && st.find(s[j]) != st.end()){
                 st.erase(s[i]);
                 i++;
             } 
