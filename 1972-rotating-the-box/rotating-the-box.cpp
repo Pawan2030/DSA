@@ -1,40 +1,45 @@
 class Solution {
 public:
-    vector<vector<char>> rotateTheBox(vector<vector<char>>& box) {
-        int n = box.size();
-        int m = box[0].size();
-        for(int c=m-1; c>=0; c--){
-            for(int r=0; r<n; r++){
-                if(box[r][c] == '#'){
-                    //it's stone
-                    int col = c;
-                    if(col!=m-1){
-                        // col++;
-                        while(col<m-1 && box[r][col+1] == '.'){
-                            col++;
-                        }
-                        box[r][c] = '.';
-                        box[r][col] = '#';
+    vector<vector<char>> rotateTheBox(vector<vector<char>>& boxGrid) {
+        
+
+        //lets rotate this into 90*
+
+        int m = boxGrid.size();
+        int n = boxGrid[0].size();
+
+        vector<vector<char>> mat(n , vector<char>(m , '.'));
+
+        for(int i=0; i<m; i++){
+
+            int stone = 0;
+
+            for(int j=0; j<n; j++){
+
+                if(boxGrid[i][j] == '#'){
+                    stone++;
+                }
+                else if(boxGrid[i][j] == '*'){
+
+                    int k = j-1;
+                    mat[j][m-i-1] = '*';
+                    while(stone>0){
+                        mat[k][m-i-1] = '#';
+                        k--;
+                        stone--;
                     }
                 }
             }
-        }
-        // for(int i=0; i<n; i++) {
-        //     for(int j=0; j<m; j++){
-        //         cout<<box[i][j]<<" ";
-        //     }cout<<endl;
-        // }
 
-        //placing the elements in the rotated array
-        vector<vector<char>> ans;
-        for(int c=0; c<m; c++){
-            vector<char> temp;
-            for(int r=0; r<n; r++){
-                temp.push_back(box[r][c]);
+            int k = n-1;
+            while(stone > 0){
+                mat[k][m-i-1] = '#';
+                stone--;
+                k--;
             }
-            reverse(temp.begin(), temp.end());
-            ans.push_back(temp);
         }
-        return ans;
+
+        return mat;
+
     }
 };
