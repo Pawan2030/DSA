@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    void rotateArr(vector<int> layerEle , int len, int k){
+    void rotateArr(vector<int>& layerEle , int& len, int& k){
         
         vector<int> temp(len);
     
@@ -49,8 +49,8 @@ public:
             int len = layerEle.size();
             int rotateK  = k % len;
 
-            //rotateArr(layerEle,len,k);
-            rotate(begin(layerEle) , begin(layerEle)+rotateK , end(layerEle));
+            rotateArr(layerEle,len,rotateK);
+            //rotate(begin(layerEle) , begin(layerEle)+rotateK , end(layerEle));
 
             int idx = 0;
 
