@@ -5,22 +5,14 @@ public:
         int n = nums.size();
         vector<int> ans;
 
-        for(int &num : nums){
-            
-            stack<int> st;
+        for(int i=0; i<n; i++){
 
-            while(num > 0){
-                int digit = num%10;
-                num /= 10;
-                st.push(digit);
-            }
-
-            while(!st.empty()){
-                ans.push_back(st.top());
-                st.pop();
+            string st = to_string(nums[i]);
+            //ch-'a' = 3
+            for(char &ch : st){
+                ans.push_back(ch - '0');
             }
         }
-
         return ans;
     }
 };
