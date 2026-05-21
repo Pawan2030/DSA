@@ -7,7 +7,7 @@ public:
 
         unordered_map<int,int> mp;
 
-        for(int &num : arr1){
+        for(int num : arr1){
 
             while(num > 0){
                 mp[num]++;
@@ -17,7 +17,7 @@ public:
 
         int len = 0;
 
-        for(int &num : arr2){
+        for(int num : arr2){
 
             while(num > 0){ 
                if(mp.find(num) != mp.end()){
