@@ -1,56 +1,58 @@
 class Solution {
 public:
 
-    int findPivotIndex(vector<int>& nums){
+    int findPivot(vector<int>& nums){
 
-        int r = nums.size()-1;
-        int l = 0;
+        int n = nums.size();
 
-        while(l < r){
+        int i = 0;
+        int j = n-1;
 
-            int mid = (r-l)/2 + l;
+        while(i < j){
 
-            if(nums[mid] > nums[r]){
-                l = mid+1;
+            int mid = i + (j-i)/2;
+
+            if(nums[mid] > nums[j]){
+                i = mid+1;
             }
             else{
-                r = mid;
+                j = mid;
             }
-        } 
-        return r;
+        }
+        return i;
     }
 
-    int BinarySearch(vector<int>& nums, int s , int e , int target){
+    int solve(vector<int>& nums , int s , int e, int tar){
+
+        int n = nums.size();
 
         while(s <= e){
 
-            int mid = (e-s)/2 + s;
+            int mid = s + (e-s)/2;
 
-            if(nums[mid] == target){
-               return mid;
+            if(nums[mid] == tar){
+                return mid;
             }
-            else if(nums[mid] < target){
-                 s = mid+1;
+            else if(nums[mid] < tar){
+                s = mid+1;
             }
             else{
                 e = mid-1;
             }
         }
+
         return -1;
     }
 
-
     int search(vector<int>& nums, int target) {
         
+        int n = nums.size();
+        int idx = findPivot(nums);
 
-        int idx = findPivotIndex(nums);
+        int l = solve(nums , 0 , idx-1 , target);
+        int r = solve(nums , idx , n-1 , target);
 
-        int i   = BinarySearch(nums , 0 , idx-1 , target);
-
-        if(i != -1) return i;
-
-        
-        return BinarySearch(nums , idx , nums.size()-1 , target);
-
+        if(l != -1) return l;
+        return r;
     }
 };
