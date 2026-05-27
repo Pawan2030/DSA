@@ -2,31 +2,35 @@ class Solution {
 public:
     int numberOfSpecialChars(string word) {
         
+        
         int n = word.size();
-        unordered_map<char , int> Lmp;
-        unordered_map<char , int> Hmp;
         int ans = 0;
+        vector<int> Capfreq(26 , -1);
+        vector<int> Lowfreq(26 , -1);
 
         for(int i=0; i<n; i++){
+            
             if(word[i] >= 'A' && word[i] <= 'Z'){
-                if(Hmp.find(word[i]) == Hmp.end())
-                   Hmp[word[i]] = i;
-            } 
+                if(Capfreq[word[i] - 'A'] == -1){
+                   Capfreq[word[i] - 'A'] = i;
+                }
+            }
             else{
-                   Lmp[word[i]] = i;
+                Lowfreq[word[i] - 'a'] = i;
             }
         }
 
-        for(char ch = 'a' ; ch <= 'z' ; ch++){
-             
-             if(Lmp.find(ch) != Lmp.end() && Hmp.find(ch-'a' + 'A') != Hmp.end()){
-                 int LowIdx  = Lmp[ch];
-                 int HighIdx = Hmp[ch-'a' + 'A'];
+        for(int i=0; i<26; i++){
+            
+            if(Capfreq[i] != -1 && Lowfreq[i] != -1){
 
-                 if(LowIdx < HighIdx){
+                int CapIdx = Capfreq[i];
+                int LowIdx = Lowfreq[i];
+
+                if(LowIdx < CapIdx){
                     ans++;
-                 }
-             }
+                }
+            }
         }
         return ans;
     }
