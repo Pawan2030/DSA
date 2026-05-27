@@ -2,42 +2,45 @@ class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         
-         unordered_map<int , vector<int>> mp;
-         vector<int> in(numCourses , 0);
+        unordered_map<int,vector<int>> adj;
+        vector<int> indegree(numCourses , 0);
 
-         for(auto prep : prerequisites){
-              int u = prep[1];
-              int v = prep[0];
-              mp[u].push_back(v);
-              in[v]++;
-         }
+        for(auto it : prerequisites){
 
-         queue<int> q;
-         int cnt = 0;
+            int u = it[1];
+            int v = it[0];  // u ---> v
 
-         for(int i=0; i<in.size(); i++){
-             
-             if(in[i] == 0){
+            adj[u].push_back(v);
+            indegree[v]++;
+        }
+
+        queue<int> q;
+
+        for(int i=0; i<numCourses; i++){
+
+            if(indegree[i] == 0){
                 q.push(i);
-             }
-         }
+            }
+        }
 
-         while(!q.empty()){
+        int cnt = 0;
+        
+        while(!q.empty()){
 
-            int it = q.front();
+            int u = q.front();
             q.pop();
             cnt++;
 
-            for(int ngr : mp[it]){
+            for(auto v : adj[u]){
 
-                in[ngr]--;
+                indegree[v]--;
 
-                if(in[ngr] == 0){
-                    q.push(ngr);
+                if(indegree[v] == 0){
+                    q.push(v);
                 }
             }
-         }
+        }
 
-         return cnt == numCourses;
+        return cnt == numCourses;
     }
 };
