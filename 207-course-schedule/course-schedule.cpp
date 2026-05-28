@@ -1,46 +1,45 @@
 class Solution {
 public:
+
+    bool isCycle(int u , vector<int> &visited , vector<int> &inRec ,  unordered_map<int,vector<int>> &adj){
+
+        visited[u] = true;
+        inRec[u] = true;
+
+        for(int v : adj[u]){
+
+            if(inRec[v] == true) return true;
+            else if(!visited[v] && isCycle(v,visited,inRec,adj)){
+                return true;
+            }
+        }
+
+        inRec[u] = false;
+        return false;
+    }
+
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         
         unordered_map<int,vector<int>> adj;
-        vector<int> indegree(numCourses , 0);
 
-        for(auto it : prerequisites){
+        for(auto p : prerequisites){
 
-            int u = it[1];
-            int v = it[0];  // u ---> v
+            int u = p[1];
+            int v = p[0];
 
             adj[u].push_back(v);
-            indegree[v]++;
         }
 
-        queue<int> q;
+        vector<int> visited(numCourses , false);
+        vector<int> inRec(numCourses , false);
 
         for(int i=0; i<numCourses; i++){
 
-            if(indegree[i] == 0){
-                q.push(i);
+            if(!visited[i] && isCycle(i , visited , inRec , adj)){
+                return false; // not possible to complete the all cou
             }
         }
 
-        int cnt = 0;
-        
-        while(!q.empty()){
-
-            int u = q.front();
-            q.pop();
-            cnt++;
-
-            for(auto v : adj[u]){
-
-                indegree[v]--;
-
-                if(indegree[v] == 0){
-                    q.push(v);
-                }
-            }
-        }
-
-        return cnt == numCourses;
+        return true;
     }
 };
