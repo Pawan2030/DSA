@@ -1,43 +1,48 @@
 class Solution {
 public:
+
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
         
-         unordered_map<int , vector<int>> mp;
-         vector<int> in(numCourses , 0);
+        unordered_map<int,vector<int>> adj;
+        vector<int> in(numCourses , 0);
 
-         for(auto prep : prerequisites){
-              int u = prep[1];
-              int v = prep[0];
-              mp[u].push_back(v);
-              in[v]++;
-         }
+        for(auto it : prerequisites){
+            int u = it[1];
+            int v = it[0];
+
+            adj[u].push_back(v);
+            in[v]++;
+        }
 
         queue<int> q;
-        vector<int> res; 
+        vector<int> ans;
 
-         for(int i=0; i<in.size(); i++){
-             
-             if(in[i] == 0){
+        for(int i=0; i<numCourses; i++){
+            
+            if(in[i] == 0){
                 q.push(i);
-             }
-         }
+                ans.push_back(i);
+            }
+        }
 
-         while(!q.empty()){
+        while(!q.empty()){
 
-            int it = q.front();
+            int u = q.front();
             q.pop();
-            res.push_back(it);
 
-            for(int ngr : mp[it]){
+            for(int v : adj[u]){
 
-                in[ngr]--;
+                in[v]--;
 
-                if(in[ngr] == 0){
-                    q.push(ngr);
+                if(in[v] == 0){
+                    q.push(v);
+                    ans.push_back(v);
                 }
             }
-         }
+        }
 
-         return res.size() == numCourses ? res : vector<int>{};
+        if(ans.size() == numCourses) return ans;
+
+        return {};
     }
 };
