@@ -1,48 +1,56 @@
 class Solution {
 public:
+    bool order(int u, vector<bool>& visited, unordered_map<int,vector<int>>& adj,  stack<int>& st,  vector<int> inRec){
+
+        visited[u] = true;
+        inRec[u]  = true;
+
+        for(int v : adj[u]){
+            
+            if(inRec[v] == true) return true;
+            else if(!visited[v] && order(v,visited,adj, st, inRec)){
+               return true;
+            }
+        }
+
+        st.push(u);
+        inRec[u] = false;
+        return false;
+    }
 
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
         
         unordered_map<int,vector<int>> adj;
-        vector<int> in(numCourses , 0);
 
-        for(auto it : prerequisites){
-            int u = it[1];
-            int v = it[0];
+        for(auto prep : prerequisites){
+
+            int u = prep[1];
+            int v = prep[0];
 
             adj[u].push_back(v);
-            in[v]++;
         }
 
-        queue<int> q;
-        vector<int> ans;
+        vector<bool> visited(numCourses , false);
+        vector<int> inRec(numCourses , false);
+        stack<int> st;
 
         for(int i=0; i<numCourses; i++){
-            
-            if(in[i] == 0){
-                q.push(i);
-                ans.push_back(i);
+            if(!visited[i] && order(i,visited,adj, st, inRec)){
+                return {};
             }
         }
 
-        while(!q.empty()){
+        // if(st.size() != numCourses){
+        //     return {};
+        // }
+        
+        vector<int> ans;
 
-            int u = q.front();
-            q.pop();
-
-            for(int v : adj[u]){
-
-                in[v]--;
-
-                if(in[v] == 0){
-                    q.push(v);
-                    ans.push_back(v);
-                }
-            }
+        while(!st.empty()){
+            ans.push_back(st.top());
+            st.pop();
         }
 
-        if(ans.size() == numCourses) return ans;
-
-        return {};
+        return ans;
     }
 };
