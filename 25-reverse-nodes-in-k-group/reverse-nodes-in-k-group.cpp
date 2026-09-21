@@ -10,43 +10,45 @@
  */
 class Solution {
 public:
-     
-    ListNode* solve(ListNode* head, int k , int cnt){
-        
-        if(cnt < k){  
-            return head;
+
+     bool lessThanKNodeLeft(ListNode* head, int k){
+
+        int cnt = 1;
+
+        ListNode* t = head;
+
+        while(t != NULL){
+            t = t->next;
+
+            if(t != NULL)
+             cnt++;
+
+            if(cnt >= k) return false;
         }
 
-        ListNode* curr = head;
-        ListNode* prev = NULL;
-        int t = k;
-
-        while(t--){
-
-            ListNode* nt = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = nt;
-        }
-
-        ListNode* conn = solve(curr  , k , cnt-k);
-    
-        head->next = conn;
-        return prev;
+        return true;
     }
 
     ListNode* reverseKGroup(ListNode* head, int k) {
-        
-        ListNode* prev = NULL;
-        int cnt = 0;
-        
-         ListNode* temp = head;
 
-        while(temp != NULL){
-            cnt++;
-            temp = temp->next;
+        if(!head || lessThanKNodeLeft(head , k)){
+            return head;
         }
-        
-        return solve(head , k , cnt);
+
+        int count = 0;
+        ListNode* tail = head;
+        ListNode* prev = NULL;
+
+        while(count < k){
+
+            ListNode* tempNext = head->next;
+            head->next = prev;
+            prev = head;
+            head = tempNext;
+            count++;
+        }
+
+        tail->next = reverseKGroup(head , k);
+        return prev;
     }
 };
