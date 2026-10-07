@@ -1,21 +1,25 @@
 class Solution {
 public:
-int minAddToMakeValid(string s) 
-{
-    stack<char> st;//create a Stack
-    
-    for(int i=0;i<s.size();i++)
-    {
-        if(s[i]=='(')//whenever their is open bracket insert on stack
-            st.push('(');
-        else 
-        {
-            if(!st.empty() && st.top()=='(')//if their is open bracket on the top of stack and stack is not empty, then pop
-                st.pop();
-            else
-                st.push(')');//otherwise push closing bracket on stack
+    int minAddToMakeValid(string s) {
+        
+        int open = 0;
+        int ans  = 0;
+
+        for(char ch : s){
+
+            if(ch == '('){
+                open++;
+            }
+            else{
+
+                if(open > 0){
+                    open--;
+                }
+                else{
+                    ans++;
+                }
+            }
         }
+        return open + ans;
     }
-    return st.size();//atlast return stack size
-}
 };
